@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.movie.repository.CommonMapper">
+    <select id="existsCommon" resultType="boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM COMMON
+            WHERE COMMON_CODE = #{commonCode}
+        )
+    </select>
+
+    <!-- COMMON 행 조회 (COMMON_ID 얻기) -->
+    <select id="selectCommonId" resultType="Integer">
+        SELECT COMMON_ID FROM COMMON
+            WHERE COMMON_CODE = #{commonCode}
+    </select>
+
+    <!-- COMMON INSERT -->
+    <insert id="insertCommon">
+        INSERT INTO COMMON (COMMON_CODE) VALUES (#{commonCode})
+    </insert>
+
+    <!-- COMMON_CODE 존재 여부 (value 중복 체크) -->
+    <select id="existsCommonValue" resultType="boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM COMMON_CODE
+                WHERE COMMON_CODE = 'GENRE_TPCD'
+                AND COMMON_VALUE = #{commonValue}
+        )
+    </select>
+
+    <!-- COMMON_CODE INSERT -->
+    <insert id="insertCommonCode">
+        INSERT INTO COMMON_CODE
+            (COMMON_ID, COMMON_CODE, COMMON_NAME, COMMON_VALUE, COMMON_SUB_VALUE)
+        VALUES
+            (#{commonId}, 'GENRE_TPCD', #{commonName}, #{commonValue}, #{commonSubValue})
+    </insert>
+</mapper>

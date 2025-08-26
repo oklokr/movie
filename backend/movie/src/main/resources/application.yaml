@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: movie
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/movie
+    username: movie
+    password: movie
+server:
+  port: 8080
+mybatis:
+  mapper-locations: classpath*:mybatis/**/*.xml
+  type-aliases-package: com.movie.model
+  configuration:
+    map-underscore-to-camel-case: true
+jwt:
+  header: Authorization
+  prefix: Bearer
+  claims:
+    roles: role
+  expiration: 3600000
+  secret: yourValidBase64EncodedSecretKeyGoesHereyourValidBase64EncodedSecretKeyGoesHereyourValidBase64EncodedSecretKeyGoesHere=
+tmdb:
+  api:
+    key: ff91ea6c8c3ef898afc8f92bed76e5da
+schedule:
+  movie-fetch: "0 0 3 * * *"
+imp:
+  code: imp36514004
+  key: 3181733625564284
+  secret_key: 8wmZ32gZhgZgksSbw5pWUW4VudOi5Via1a22sm1kniIIGDCaoDottSSAxArTHAhE4LfLdFTD3fq1MsFC

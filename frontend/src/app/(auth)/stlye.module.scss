@@ -1,0 +1,32 @@
+.auth {
+  height: 100vh;
+  background: #fafbfc;
+}
+
+.login-wrap {
+  width: 520px;
+  margin: 0 auto;
+
+  .logo {
+    width: 176px;
+    height: 176px;
+    margin: 0 auto;
+    background: url("/logo/logo.png") no-repeat center;
+    background-size: 100%;
+    a {
+      color: transparent;
+    }
+  }
+
+  .form {
+    padding: 30px 40px;
+    border: 1px solid #999;
+    border-radius: 12px;
+
+    h2 {
+      font-size: 40px;
+      margin: 0 auto;
+      text-align: center;
+    }
+  }
+}

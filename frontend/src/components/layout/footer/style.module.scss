@@ -1,0 +1,23 @@
+.footer {
+  min-height: 128px;
+  padding: 16px 60px;
+}
+
+.company-desc {
+  font-size: 14px;
+  color: var(--color-text-disabled);
+}
+
+.desc {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #6a6a6a;
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid var(--color-divider);
+  span {
+    display: block;
+    font-size: 10px;
+  }
+}

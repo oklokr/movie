@@ -1,0 +1,75 @@
+:root {
+  /* 기본 색상 */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* 배경색 */
+  --color-bg: #f2f2f2;
+  --color-bg-subtle: #fafafa;
+  --color-surface: #ffffff;
+  --color-surface-alt: #e6e6e6;
+
+  /* 텍스트 색상 */
+  --color-text: #222222;
+  --color-text-secondary: #555555;
+  --color-text-disabled: #999999;
+  --color-text-inverted: #ffffff;
+
+  /* 보더 색상 */
+  --color-border: #cccccc;
+  --color-border-strong: #999999;
+  --color-divider: #dddddd;
+
+  /* 기본 버튼 및 인터랙션 */
+  --color-primary: #2a5fff;
+  --color-primary-hover: #1e4ed8;
+  --color-primary-disabled: #a5c0ff;
+
+  --color-secondary: #aaaaaa;
+  --color-secondary-hover: #888888;
+  --color-secondary-disabled: #dddddd;
+
+  /* 상태 색상 */
+  --color-success: #2ecc71;
+  --color-warning: #f1c40f;
+  --color-error: #e74c3c;
+  --color-info: #3498db;
+
+  /* 그림자 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+
+  /* 반응형 */
+  --screen-xs: 480px;
+  --screen-sm: 768px;
+  --screen-md: 1024px;
+  --screen-lg: 1280px;
+
+  /* radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* 타이포그래피 */
+  --font-family-base: "Pretendard", sans-serif;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+
+  /* 배경 그라데이션 */
+  --gradient-overlay: linear-gradient(180deg, #ffffffcc 60%, #ffffff 100%);
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 공통 패턴 -->
+    <property name="LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <!-- 경로/파일명 -->
+    <property name="LOG_PATH"  value="logs"/>
+    <property name="LOG_FILE_NAME" value="batch"/>
+
+    <!-- ========== 콘솔 ========== -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ========== 파일 ========== -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 일자별 분리 -->
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder charset="UTF-8">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- MyBatis SQL, 파라미터 로그 상세 -->
+    <logger name="org.mybatis" level="DEBUG"/>
+
+    <!-- 프로젝트 mapper 위치 -->
+    <logger name="com.project.mapper" level="DEBUG"/>
+
+    <!-- API 호출 로그 (예시) -->
+    <logger name="com.project.api" level="DEBUG"/>
+    
+    <!-- ========== 루트 로거 (전체 로그 레벨 DEBUG) ========== -->
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>

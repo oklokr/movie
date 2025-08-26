@@ -1,0 +1,30 @@
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  border: 2px solid;
+  border-radius: 50%;
+  background: transparent;
+  color: #000;
+  border-color: #000;
+  transition: all 0.25s ease;
+
+  // 강한 hover 효과
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+}
+
+.dark {
+  color: #fff;
+  border-color: #fff;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+}

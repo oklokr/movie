@@ -1,0 +1,59 @@
+.header {
+  display: flex;
+  align-items: center;
+  min-height: 80px;
+  padding: 0 60px;
+  position: sticky;
+  top: 0px;
+  transition: 0.3s;
+  background: #ffffff00;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+  z-index: 100;
+
+  &:hover {
+    color: #222;
+    background-color: #fff;
+
+    button {
+      color: #222;
+    }
+    :global(.dark) & button {
+      color: #222;
+    }
+  }
+}
+
+.logo {
+  margin-right: 40px;
+  a {
+    display: block;
+    width: 88px;
+    height: 58px;
+    position: relative;
+    background: url("/logo/logo2.png");
+    background-size: 100%;
+    span {
+      width: 1px;
+      height: 1px;
+      position: absolute;
+      text-indent: -9999px;
+      color: transparent;
+    }
+  }
+}
+
+.gnb-menu {
+  display: flex;
+  overflow: hidden;
+  gap: 16px;
+}
+
+.user-menu {
+  display: flex;
+  margin-left: auto;
+  gap: 16px;
+
+  :global(.dark) & button {
+    color: #fff;
+  }
+}
