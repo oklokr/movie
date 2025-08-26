@@ -4,25 +4,27 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.movie.repository.CommonMapper">
+    <select id="getCommonCodeAll">
+        SELECT * FROM COMMON_CODE
+    </select>
+
+    <!-- CommonCode 중복 체크 -->
     <select id="existsCommon" resultType="boolean">
         SELECT EXISTS (
             SELECT 1 FROM COMMON
             WHERE COMMON_CODE = #{commonCode}
         )
     </select>
-
     <!-- COMMON 행 조회 (COMMON_ID 얻기) -->
     <select id="selectCommonId" resultType="Integer">
         SELECT COMMON_ID FROM COMMON
             WHERE COMMON_CODE = #{commonCode}
     </select>
-
     <!-- COMMON INSERT -->
     <insert id="insertCommon">
         INSERT INTO COMMON (COMMON_CODE) VALUES (#{commonCode})
     </insert>
-
-    <!-- COMMON_CODE 존재 여부 (value 중복 체크) -->
+    <!-- 장르코드 중복 존재 여부 (value 중복 체크) -->
     <select id="existsCommonValue" resultType="boolean">
         SELECT EXISTS (
             SELECT 1 FROM COMMON_CODE
@@ -30,7 +32,6 @@
                 AND COMMON_VALUE = #{commonValue}
         )
     </select>
-
     <!-- COMMON_CODE INSERT -->
     <insert id="insertCommonCode">
         INSERT INTO COMMON_CODE

@@ -1,11 +1,14 @@
 package com.movie.repository;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface CommonMapper {
-    // List<Map<String, Object>> selectCommonCode(@Param("commonCode") String commonCode);
+    List<Map<String, Object>> getCommonCodeAll();
 
     Integer selectCommonId(String commonCode);
     boolean existsCommon(String commonCode);
