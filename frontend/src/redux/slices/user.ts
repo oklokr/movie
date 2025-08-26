@@ -1,3 +1,5 @@
+// frontend/src/redux/slices/user.ts
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const userInfoSlice = createSlice({

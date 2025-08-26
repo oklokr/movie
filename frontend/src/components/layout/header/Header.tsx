@@ -23,7 +23,7 @@ export default function Header() {
   const { info } = useSelector((state: RootState) => state.user);
 
   const handleLinkMypage = async () => {
-    if (!info) return router.push("/login");
+    router.push(!info ? "/login" : "/mypage");
   };
 
   return (

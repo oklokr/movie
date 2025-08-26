@@ -1,3 +1,5 @@
+// frontend/src/redux/store.ts
+
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/user";
 import commonReducer from "./slices/common";

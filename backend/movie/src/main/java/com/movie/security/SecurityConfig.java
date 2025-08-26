@@ -41,7 +41,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/public/**").permitAll()
+                .requestMatchers("/api/auth/**", "/api/common/**").permitAll()
                 .requestMatchers("/api/movies/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )

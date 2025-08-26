@@ -1,5 +1,7 @@
+import { ModalManager } from "@/components/ui/modal/alert";
 import "./globals.scss";
-import ClientLayout from "@/components/layout/clientLayout";
+import ReduxProvider from "@/redux/reduxProvider";
+import DeafultLayout from "@/components/layout/defultLayout";
 
 export default function RootLayout({
   children,
@@ -9,7 +11,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <ClientLayout>{children}</ClientLayout>
+        <ReduxProvider>
+          <DeafultLayout>{children}</DeafultLayout>
+          <ModalManager />
+        </ReduxProvider>
       </body>
     </html>
   );

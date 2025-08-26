@@ -1,3 +1,5 @@
+// frontend/src/redux/slices/common.ts
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const commonSlice = createSlice({
