@@ -5,6 +5,18 @@
 
 <mapper namespace="com.movie.repository.UserMapper">
     <select id="getUser">
-        SELECT * FROM MEMBERS WHERE user_id = #{id};
+        SELECT * FROM MEMBERS WHERE user_id = #{userId};
     </select>
+
+    <select id="existsId">
+        SELECT COUNT(*) FROM MEMBERS WHERE USER_ID = #{userId}
+    </select>
+    <select id="existsEmail">
+        SELECT COUNT(*) FROM MEMBERS WHERE EMAIL = #{email}
+    </select>
+
+    <insert id="signup">
+        INSERT INTO MEMBERS (USER_ID, PASSWD, USER_NAME, EMAIL, TEL, USER_TPCD)
+        VALUES (#{userId}, #{passwd}, #{userName}, #{email}, #{tel}, "1")
+    </insert>
 </mapper>

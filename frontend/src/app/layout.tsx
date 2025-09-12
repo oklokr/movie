@@ -1,7 +1,8 @@
 import { ModalManager } from "@/components/ui/modal/alert";
-import "./globals.scss";
 import ReduxProvider from "@/redux/reduxProvider";
-import DeafultLayout from "@/components/layout/defultLayout";
+import DefaultLayout from "@/components/layout/defaultLayout";
+import "./globals.scss";
+import Script from "next/script";
 
 export default function RootLayout({
   children,
@@ -10,9 +11,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
+      <head>
+        <Script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js" />
+      </head>
       <body>
         <ReduxProvider>
-          <DeafultLayout>{children}</DeafultLayout>
+          <DefaultLayout>{children}</DefaultLayout>
           <ModalManager />
         </ReduxProvider>
       </body>

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.movie.model.UserDto;
+import com.movie.model.UserType;
 import com.movie.repository.UserMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -19,11 +20,12 @@ import lombok.RequiredArgsConstructor;
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserMapper mapper;
     @Override
-    public UserDetails loadUserByUsername( String id ) throws UsernameNotFoundException {
-        UserDto user = mapper.getUser( id );
+    public UserDetails loadUserByUsername( String userId ) throws UsernameNotFoundException {
+        UserDto user = mapper.getUser( userId );
         if( user == null ) throw new UsernameNotFoundException( "입력한 사용자가 없습니다" );
         
-        GrantedAuthority authorities = new SimpleGrantedAuthority(user.getUserTpcd());
+
+        GrantedAuthority authorities = new SimpleGrantedAuthority("ROLE_" + UserType.valueOfCode(user.getUserTpcd()).name());
         return new org.springframework.security.core.userdetails.User(
             user.getUserId(),
             user.getPasswd(),

@@ -21,14 +21,14 @@ INSERT INTO COMMON_CODE (COMMON_ID, COMMON_CODE, COMMON_NAME, COMMON_VALUE) VALU
 (5, 'TERMS_TPCD', '통신사이용약관 ', '4');
 
 -- MEMBERS
-INSERT INTO MEMBERS (USER_ID, PASSWD, USER_NAME, EMAIL, TEL, AGE, LANG_TPCD, DATE_TPCD, VIEW_ADULT, SAVE_HISTORY, TERMS, USER_TPCD)
+INSERT INTO MEMBERS (USER_ID, PASSWD, USER_NAME, EMAIL, TEL, LANG_TPCD, DATE_TPCD, ADULT, SAVE_HISTORY, USER_TPCD)
 VALUES
-('user', '$2b$12$rK2858/Z5Pl9gCHAOWoQuOFz/jBx51KZ9X2moI.b8ylwHNp5Y4pEy', '홍길동', 'user1@example.com', '01012345678', 25, '1', '1', 'N', 'Y', '110', '1'),
-('vip', '$2b$12$52Gy/hSRFJy/KJC18G0wUetpevE.jipoFLNDtcRqAftiS7WO4btWm', '이순신', 'vip@example.com', '01012341234', 25, '1', '1', 'N', 'Y', '110', '3'),
-('admin', '$2b$12$g.ClJZMm5M0lCO3ak4.mdedg.D6T5aUiQkEJjdT7WvkDAkOHDsxmG', '관리자', 'admin@example.com', '01043211234', 25, '1', '1', 'N', 'Y', '111', '2'),
-('delete', '$2b$12$JDvLKQQN9qwWutyQvR6XI.eX//FFory1bbGQ3MBfEUUrE5C4S0kAW', '김유신', 'delete@example.com', '01056781234', 25, '1', '1', 'N', 'Y', '110', '4'),
-('user2', '$2b$12$obdP1m/bcXtzli/FACBTauos29k9niU.hMH8kpZ9XSOW7NAuS2wgS', '강감찬', 'user2@example.com', '01087654321', 25, '1', '1', 'N', 'Y', '111', '1'),
-('user3', '$2b$12$GwPzDfLgHX7yTwiua8NEXOrPhZuPQsmoHuMRtCm8hCPVI9RWufi6q', '대조영', 'user3@example.com', '01043214321', 25, '1', '1', 'N', 'Y', '110', '1');
+('user', '$2b$12$rK2858/Z5Pl9gCHAOWoQuOFz/jBx51KZ9X2moI.b8ylwHNp5Y4pEy', '홍길동', 'user1@example.com', '01012345678', '1', '1', 'N', 'Y', '1'),
+('vip', '$2b$12$52Gy/hSRFJy/KJC18G0wUetpevE.jipoFLNDtcRqAftiS7WO4btWm', '이순신', 'vip@example.com', '01012341234', '1', '1', 'N', 'Y', '3'),
+('admin', '$2b$12$g.ClJZMm5M0lCO3ak4.mdedg.D6T5aUiQkEJjdT7WvkDAkOHDsxmG', '관리자', 'admin@example.com', '01043211234', '1', '1', 'N', 'Y', '2'),
+('delete', '$2b$12$JDvLKQQN9qwWutyQvR6XI.eX//FFory1bbGQ3MBfEUUrE5C4S0kAW', '김유신', 'delete@example.com', '01056781234', '1', '1', 'N', 'Y', '4'),
+('user2', '$2b$12$obdP1m/bcXtzli/FACBTauos29k9niU.hMH8kpZ9XSOW7NAuS2wgS', '강감찬', 'user2@example.com', '01087654321', '1', '1', 'N', 'Y', '1'),
+('user3', '$2b$12$GwPzDfLgHX7yTwiua8NEXOrPhZuPQsmoHuMRtCm8hCPVI9RWufi6q', '대조영', 'user3@example.com', '01043214321', '1', '1', 'N', 'Y', '1');
 
 -- GENRE
 INSERT INTO GENRE (GENRE_CODE, GENRE_NAME) VALUES

@@ -1,7 +1,6 @@
 import React from "react";
-import style from "./style.module.scss";
 
-type ButtonVariant = "primary" | "secondary";
+type ButtonVariant = "primary" | "secondary" | "yellow";
 type ButtonSize = "small" | "medium" | "large";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -22,8 +21,8 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`${style.button} ${style[variant]} ${style[size]} ${
-        disabled || isLoading ? style.disabled : ""
+      className={`button ${variant} ${size} ${
+        disabled || isLoading ? "disabled" : ""
       }`}
       disabled={disabled || isLoading}
       style={{ width: width || "auto" }}

@@ -38,7 +38,7 @@ export default function LoginForm() {
     if (!id) return fn_alert("아이디를 입력해주세요.");
     if (!passwd) return fn_alert("비밀번호를 입력해주세요.");
 
-    requestLogin({ id: id, passwd: passwd }).then((res) => {
+    requestLogin({ userId: id, passwd: passwd }).then((res) => {
       const { code, data } = res;
       if (code !== 200) return fn_alert("일치하는 계정이 없습니다.");
       console.log(data);
@@ -56,6 +56,7 @@ export default function LoginForm() {
         value={id}
         onChange={(e) => setId(e.target.value)}
         error={error.id.state ? "" : error.id.text}
+        validate
         onKeyDown={(e) => (e.key === "Enter" ? handleLogin() : null)}
       />
       <Input
@@ -64,6 +65,7 @@ export default function LoginForm() {
         type="password"
         value={passwd}
         onChange={(e) => setPasswd(e.target.value)}
+        validate
         error={error.pw.state ? "" : error.pw.text}
         onKeyDown={(e) => (e.key === "Enter" ? handleLogin() : null)}
       />

@@ -1,29 +1,29 @@
-.auth {
-  height: 100vh;
-  background: #fafbfc;
-}
-
 .login-wrap {
   width: 420px;
-  padding-top: 50px;
+  padding-top: 16px;
   margin: 0 auto 0;
 
   .logo {
     width: 176px;
     height: 176px;
     margin: 0 auto;
+    position: relative;
     background: url("/logo/logo.png") no-repeat center;
     background-size: 100%;
     a {
       color: transparent;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
     }
   }
 
   .form {
     padding: 30px 40px;
-    border: 1px solid #999;
+    border: 1px solid #888888;
     border-radius: 12px;
-    background: #fff;
 
     h2 {
       font-size: 32px;
@@ -55,7 +55,6 @@
         margin: auto 0;
       }
       a {
-        color: #000;
         text-decoration: initial;
         transition: 0.3s;
 

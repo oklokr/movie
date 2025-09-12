@@ -1,2 +1,6 @@
 @use "./reset.scss";
-@use "./variables.scss";
+@use "./common.scss";
+
+.app {
+  background: linear-gradient(180deg, #000000b5 60%, #000000 100%);
+}

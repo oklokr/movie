@@ -1,12 +1,28 @@
 // frontend/src/redux/slices/common.ts
 
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export interface CommonCodeItem {
+  commonId: number;
+  commonName: string;
+  commonSubValue: string;
+  commonValue: string;
+}
+
+interface CommonState {
+  code: Record<string, CommonCodeItem[]>;
+}
+
+const initialState: CommonState = { code: {} };
 
 const commonSlice = createSlice({
   name: "common",
-  initialState: { code: null },
+  initialState,
   reducers: {
-    setCommonCode(state, action) {
+    setCommonCode(
+      state,
+      action: PayloadAction<Record<string, CommonCodeItem[]>>
+    ) {
       state.code = action.payload;
     },
   },

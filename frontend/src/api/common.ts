@@ -4,6 +4,7 @@ import request from "@/utils/request.js";
 interface requestType<T = any> {
   code: number;
   data: T;
+  msg: string;
 }
 
 // export function requestMemberFileUpload(data) {
@@ -16,13 +17,20 @@ interface requestType<T = any> {
 // }
 
 export function requestLogin(data: {
-  id: string;
+  userId: string;
   passwd: string;
 }): Promise<requestType> {
   return request({
     url: "/api/auth/login",
     method: "post",
     data,
+  });
+}
+
+export function requestLogout(): Promise<requestType> {
+  return request({
+    url: "/api/auth/logout",
+    method: "post",
   });
 }
 

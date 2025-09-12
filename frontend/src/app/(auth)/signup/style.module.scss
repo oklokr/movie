@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  > div {
+    width: 400px;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid #888;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  }
+  h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.message {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #aaa;
+  text-align: center;
+  a {
+    color: #facc15;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.form-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  > button {
+    margin-top: 16px;
+  }
+}

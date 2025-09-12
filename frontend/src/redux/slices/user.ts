@@ -11,6 +11,7 @@ const userInfoSlice = createSlice({
     },
     resetUserInfo(state) {
       state.info = null;
+      window.location.href = "/";
     },
   },
 });

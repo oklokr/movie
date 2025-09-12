@@ -1,22 +1,40 @@
 "use client";
 
 import React from "react";
-import styles from "./style.module.scss";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  orientation?: string;
+  validate?: boolean;
+  width?: string | number;
+  children?: React.ReactNode;
 }
 
-const Input: React.FC<InputProps> = ({ label, error, ...props }) => {
+const Input: React.FC<InputProps> = ({
+  label,
+  error,
+  orientation = "row",
+  validate = false,
+  children,
+  width,
+  ...props
+}) => {
   return (
-    <div className={styles.inputWrapper}>
-      {label && <label className={styles.label}>{label}</label>}
-      <input
-        {...props}
-        className={`${styles.input} ${error ? styles.errorInput : ""}`}
-      />
-      {error && <p className={styles.errorMsg}>{error}</p>}
+    <div
+      className={`input-wrap ${error ? "error" : ""} ${
+        orientation === "col" ? "input-wrap--col" : ""
+      } ${validate ? "input-wrap--validate" : ""}`}
+      style={{ width: width || "auto" }}
+    >
+      {label && <label>{label}</label>}
+      <div className="input-content">
+        <div className="input-item">
+          <input {...props} />
+          {children}
+        </div>
+        {error && validate && <p className="msg">{error}</p>}
+      </div>
     </div>
   );
 };
