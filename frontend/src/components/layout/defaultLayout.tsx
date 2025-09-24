@@ -9,6 +9,7 @@ import { RootState } from "@/redux/store";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function DefaultLayout({
   children,

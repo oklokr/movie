@@ -20,6 +20,7 @@ interface SelectProps
   width?: string | number;
   onChange?: (value: string | number) => void;
   value?: string | number;
+  searchable?: boolean;
   children?: React.ReactNode;
 }
 
@@ -32,30 +33,52 @@ const Select: React.FC<SelectProps> = ({
   width,
   onChange,
   value,
+  searchable = false,
   children,
   ...props
 }) => {
-  const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState(
-    options.find((o) => o.value === value)?.label || ""
-  );
   const ref = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+
+  const [selectedValue, setSelectedValue] = useState<Option | null>(
+    options.find((option) => option.value === value) || null
+  );
+  const [filter, setFilter] = useState("");
+  const [typing, setTyping] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
+        if (searchable) {
+          setFilter("");
+          setTyping(false);
+        }
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [searchable]);
 
-  const handleSelect = (opt: Option) => {
-    setInputValue(opt.label);
-    onChange?.(opt.value);
+  useEffect(() => {
+    const selectValue =
+      options.find((option) => option.value === value) || null;
+    setSelectedValue(selectValue);
+    setFilter("");
+    setTyping(false);
+  }, [value, options]);
+
+  const handleSelect = (option: Option) => {
+    setSelectedValue(option);
+    setFilter("");
+    setTyping(false);
+    onChange?.(option.value);
     setOpen(false);
   };
+
+  const optionItems = searchable
+    ? options.filter((option) => option.label.includes(filter))
+    : options;
 
   return (
     <div
@@ -70,17 +93,29 @@ const Select: React.FC<SelectProps> = ({
         <div className="input-item">
           <div className="select">
             <input
-              value={inputValue}
+              value={
+                searchable
+                  ? typing
+                    ? filter
+                    : selectedValue?.label || ""
+                  : selectedValue?.label || ""
+              }
+              onChange={(e) => {
+                if (searchable) {
+                  setFilter(e.target.value);
+                  setTyping(true);
+                }
+              }}
               onFocus={() => setOpen(true)}
-              readOnly
+              readOnly={!searchable}
               {...props}
             />
             <i className={`arrow ${open ? "open" : ""}`}></i>
             {open && (
               <ul className="options">
-                {options.map((opt) => (
-                  <li key={opt.value} onClick={() => handleSelect(opt)}>
-                    {opt.label}
+                {optionItems.map((option) => (
+                  <li key={option.value} onClick={() => handleSelect(option)}>
+                    {option.label}
                   </li>
                 ))}
               </ul>

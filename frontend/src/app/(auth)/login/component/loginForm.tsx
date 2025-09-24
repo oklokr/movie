@@ -41,7 +41,6 @@ export default function LoginForm() {
     requestLogin({ userId: id, passwd: passwd }).then((res) => {
       const { code, data } = res;
       if (code !== 200) return fn_alert("일치하는 계정이 없습니다.");
-      console.log(data);
       dispatch(setUserInfo(data));
       router.push("/");
     });

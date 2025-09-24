@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.movie.repository.AdminMapper">
+    <select id="getUserList">
+        SELECT m.*, c.COMMON_NAME AS USER_TPCD_NAME
+        FROM MEMBERS m
+        LEFT JOIN COMMON_CODE c
+            ON m.USER_TPCD = c.COMMON_VALUE
+            AND c.COMMON_CODE = 'USER_TPCD'
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="userId != null and userId != ''">
+                AND m.USER_ID = #{userId}
+            </if>
+            <if test="userTpcd != null and userTpcd != ''">
+                AND m.USER_TPCD = #{userTpcd}
+            </if>
+        </trim>
+
+        ORDER BY m.SIGNUP_DATE DESC
+        LIMIT #{size} OFFSET #{offset};
+    </select>
+
+    <select id="countUserList">
+        SELECT COUNT(*) FROM MEMBERS
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="userId != null and userId != ''">
+                AND USER_ID = #{userId}
+            </if>
+            <if test="userTpcd != null and userTpcd != ''">
+                AND USER_TPCD = #{userTpcd}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getUserInfo">
+        SELECT 
+            m.*,
+            c.COMMON_NAME AS USER_TPCD_NAME,
+            COALESCE(o.TOTAL_PAYMENT, 0) AS TOTAL_PAYMENT,
+            COALESCE(o.TOTAL_RESERVATION, 0) AS TOTAL_RESERVATION,
+            COALESCE(o.TOTAL_VOD, 0) AS TOTAL_VOD
+        FROM MEMBERS m
+        LEFT JOIN COMMON_CODE c
+            ON m.USER_TPCD = c.COMMON_VALUE
+            AND c.COMMON_CODE = 'USER_TPCD'
+        LEFT JOIN (
+            SELECT
+                USER_ID,
+                SUM(PRICE) AS TOTAL_PAYMENT,
+                SUM(CASE WHEN ORDER_TYPE='RESERVATION' THEN 1 ELSE 0 END) AS TOTAL_RESERVATION,
+                SUM(CASE WHEN ORDER_TYPE='VOD' THEN 1 ELSE 0 END) AS TOTAL_VOD
+            FROM ORDER_HISTORY
+            GROUP BY USER_ID
+        ) o
+            ON m.USER_ID = o.USER_ID
+        WHERE m.USER_ID = #{userID}
+    </select>
+
+    <update id="changeUserTpcd">
+        UPDATE MEMBERS SET USER_TPCD = #{userTpcd} WHERE USER_ID = #{userId}
+    </update>
+    <update id="changeUserPasswd">
+        UPDATE MEMBERS SET PASSWD = '$12$JDvLKQQN9qwWutyQvR6XI.eX//FFory1bbGQ3MBfEUUrE5C4S0kAW' WHERE USER_ID = #{userID}
+    </update>
+
+    <select id="getMovieInfoList">
+        SELECT
+            m.MOVIE_CODE,
+            m.MOVIE_NAME,
+            m.POSTER,
+            m.SALES,
+            m.DISCOUNTRATE,
+            m.VOD_STATE,
+            m.RESERVATION_STATE,
+            m.RATING_TPCD,
+            c.COMMON_NAME AS RATING_TPCD_NAME
+        FROM movie m
+        LEFT JOIN COMMON_CODE c
+            ON m.RATING_TPCD = c.COMMON_VALUE
+            AND c.COMMON_CODE = 'RATING_TPCD'
+
+        <where>
+            <if test="movieName != null and movieName != ''">
+                AND m.MOVIE_NAME LIKE CONCAT('%' #{movieName}, '%')
+            </if>
+        </where>
+
+        ORDER BY m.CREATE_DATE DESC
+        LIMIT #{size} OFFSET #{offset};
+    </select>
+    <select id="countMovieInfoList">
+        SELECT COUNT(*) FROM movie
+        <where>
+            <if test="movieName != null and movieName != ''">
+                AND MOVIE_NAME LIKE CONCAT('%' #{movieName}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>

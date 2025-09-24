@@ -16,6 +16,33 @@
     }
   }
 
+  .input-content {
+    width: 100%;
+
+    &.checkbox-group,
+    &.radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        color: #fff;
+        cursor: pointer;
+
+        input {
+          width: 16px;
+          height: 16px;
+          accent-color: #facc15;
+          flex: 0 0 auto;
+        }
+      }
+    }
+  }
+
   input {
     width: 100%;
     padding: 12px;
@@ -62,15 +89,32 @@
     position: absolute;
     z-index: 10;
     width: 100%;
-    background: #3a3a3a;
-    border: 1px solid #444;
-    border-radius: 8px;
+    max-height: 272px;
+    padding: 0;
     margin-top: 4px;
     list-style: none;
-    padding: 0;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: #3a3a3a;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #facc15 #3a3a3a;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: #3a3a3a;
+      border-radius: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #facc15;
+      border-radius: 8px;
+    }
 
     li {
       font-size: 14px;
+      line-height: 1;
       padding: 10px 12px;
       cursor: pointer;
       &:hover {
@@ -108,6 +152,62 @@
       font-size: 14px;
       margin-top: 4px;
     }
+  }
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #3a3a3a;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+
+  &:focus {
+    border-color: #facc15;
+    box-shadow: 0 0 4px #facc15;
+  }
+}
+
+/* 팝업 달력 박스 */
+.react-datepicker {
+  background-color: #3a3a3a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  color: #fff;
+
+  .react-datepicker__header {
+    background-color: #2a2a2a;
+    border-bottom: 1px solid #444;
+  }
+  .react-datepicker__day-names {
+    padding: 0 0.4rem;
+    border-bottom: 1px solid #888;
+    margin-bottom: 0.4rem;
+  }
+  .react-datepicker__current-month,
+  .react-datepicker__day-name span,
+  .react-datepicker__day {
+    color: #fff;
+    font-size: 14px;
+  }
+
+  .react-datepicker__day--selected,
+  .react-datepicker__day--in-range,
+  .react-datepicker__day:hover:not(.react-datepicker__day--disabled),
+  .react-datepicker__day--keyboard-selected {
+    background-color: #facc15;
+    color: #000;
+    border-radius: 50%;
+  }
+
+  .react-datepicker__navigation {
+    top: 3px;
+  }
+  .react-datepicker__navigation-icon::before {
+    border-color: #ccc;
   }
 }
 
@@ -156,6 +256,151 @@
   &.large {
     padding: 14px 26px;
     font-size: 20px;
+  }
+}
+
+.table-wrap {
+  width: 100%;
+  margin-top: 24px;
+
+  .spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 360px;
+    background-color: rgba(255, 255, 255, 0.05);
+    &::before {
+      display: block;
+      content: "";
+      width: 60px;
+      height: 60px;
+      border: 4px solid #ddd;
+      border-top-color: #ffcc00;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 8px;
+    }
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .total-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    span {
+      font-size: 14px;
+    }
+  }
+
+  .table {
+    width: 100%;
+    min-height: 360px;
+  }
+
+  table {
+    width: 100%;
+    text-align: left;
+    text-align: center;
+    border-collapse: collapse;
+  }
+
+  thead {
+    background-color: #444;
+    color: #ddd;
+    th {
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 14px;
+      & + th:not(:first-child) {
+        border-left: 1px solid #555;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      cursor: pointer;
+
+      &:hover {
+        background-color: #505050;
+      }
+
+      td {
+        font-size: 14px;
+        padding: 10px 14px;
+        border-top: 1px solid #555;
+        border-bottom: 1px solid #555;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        & + td:not(:first-child) {
+          border-left: 1px solid #555;
+        }
+      }
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+
+    button {
+      padding: 6px 12px;
+      background: #222;
+      color: #ddd;
+      border: 1px solid #444;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+
+      &:hover {
+        background: #333;
+      }
+
+      &.active {
+        background: #ffcc00;
+        color: #000;
+        border-color: #ffcc00;
+      }
+    }
+  }
+}
+
+.pagenation {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+
+  button {
+    padding: 6px 12px;
+    background: #222;
+    color: #ddd;
+    border: 1px solid #444;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+      background: #333;
+    }
+
+    &.active {
+      background: #ffcc00;
+      color: #000;
+      border-color: #ffcc00;
+    }
   }
 }
 

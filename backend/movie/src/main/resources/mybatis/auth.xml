@@ -5,7 +5,12 @@
 
 <mapper namespace="com.movie.repository.UserMapper">
     <select id="getUser">
-        SELECT * FROM MEMBERS WHERE user_id = #{userId};
+        SELECT m.*, c.COMMON_NAME AS USER_TPCD_NAME
+        FROM MEMBERS m
+        LEFT JOIN COMMON_CODE c
+            ON m.USER_TPCD = c.COMMON_VALUE
+            AND c.COMMON_CODE = 'USER_TPCD'
+        WHERE user_id = #{userId};
     </select>
 
     <select id="existsId">

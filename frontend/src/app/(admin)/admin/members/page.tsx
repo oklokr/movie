@@ -1,5 +1,5 @@
-import UserTable from "./component/userTalbe";
+import UserTable from "./component/userTable";
 
-export default async function MembersPage() {
+export default function MembersPage() {
   return <UserTable />;
 }
