@@ -11,6 +11,8 @@ interface RadioGroupProps {
   orientation?: "row" | "col";
   validate?: boolean;
   width?: string | number;
+  labelWidth?: string | number;
+  labelAlign?: "left" | "center" | "right";
   options: Option[];
   value: string;
   onChange: (selected: string) => void;
@@ -22,6 +24,8 @@ export default function RadioGroup({
   orientation = "row",
   validate = false,
   width,
+  labelWidth = "auto",
+  labelAlign = "right",
   options,
   value,
   onChange,
@@ -33,7 +37,11 @@ export default function RadioGroup({
       } ${validate ? "input-wrap--validate" : ""}`}
       style={{ width: width || "auto" }}
     >
-      {label && <label>{label}</label>}
+      {label && (
+        <label style={{ width: labelWidth, textAlign: labelAlign }}>
+          {label}
+        </label>
+      )}
       <div className="input-content radio-group">
         <div className="input-item">
           {options &&

@@ -146,7 +146,6 @@ public class MovieBatchService {
             .teaser(teaser)
             .poster("https://image.tmdb.org/t/p/w500" + detail.getPoster_path())
             .background("https://image.tmdb.org/t/p/w1280" + detail.getBackdrop_path())
-            .sales((long) 0)
             .build();
 
         movieMapper.batchInsertMovie(movieDto);

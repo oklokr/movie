@@ -1,6 +1,7 @@
 "use client";
 
-import { IconSearch, IconUser } from "@tabler/icons-react";
+import { IoIosSearch } from "react-icons/io";
+import { FaUser } from "react-icons/fa6";
 import style from "./style.module.scss";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
@@ -143,7 +144,7 @@ export default function Header({ layoutState = "default" }: LayoutState) {
         {layoutState === "default" && (
           <li>
             <button type="button" aria-label="검색">
-              <IconSearch />
+              <IoIosSearch size={28} />
             </button>
             <div></div>
           </li>
@@ -155,7 +156,7 @@ export default function Header({ layoutState = "default" }: LayoutState) {
             onClick={handleOpenMyMenu}
             ref={menuBtn}
           >
-            <IconUser />
+            <FaUser size={20} />
           </button>
           {myMenuVisible && (
             <div

@@ -77,7 +77,7 @@
             m.RESERVATION_STATE,
             m.RATING_TPCD,
             c.COMMON_NAME AS RATING_TPCD_NAME
-        FROM movie m
+        FROM MOVIE m
         LEFT JOIN COMMON_CODE c
             ON m.RATING_TPCD = c.COMMON_VALUE
             AND c.COMMON_CODE = 'RATING_TPCD'
@@ -98,5 +98,13 @@
                 AND MOVIE_NAME LIKE CONCAT('%' #{movieName}, '%')
             </if>
         </where>
+    </select>
+
+    <select id="getMovieInfo">
+        SELECT * FROM MOVIE WHERE MOVIE_CODE = #{movieId}
+    </select>
+
+    <select id="getCreatorList">
+        SELECT * FROM CREATOR
     </select>
 </mapper>

@@ -62,7 +62,7 @@ const Select: React.FC<SelectProps> = ({
 
   useEffect(() => {
     const selectValue =
-      options.find((option) => option.value === value) || null;
+      options?.find((option) => option.value === value) || null;
     setSelectedValue(selectValue);
     setFilter("");
     setTyping(false);
@@ -77,7 +77,7 @@ const Select: React.FC<SelectProps> = ({
   };
 
   const optionItems = searchable
-    ? options.filter((option) => option.label.includes(filter))
+    ? options?.filter((option) => option.label.includes(filter))
     : options;
 
   return (

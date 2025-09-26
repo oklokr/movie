@@ -42,4 +42,13 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getMovieInfoList(req));
     }
     
+    @PostMapping("/getCreatorList")
+    public ResponseEntity<?> getCreatorList() {
+        return ResponseEntity.ok(adminService.getCreatorList());
+    }
+
+    @PostMapping("/getMovieInfo")
+    public ResponseEntity<?> getMovieInfo(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(adminService.getMovieInfo(req));
+    }
 }

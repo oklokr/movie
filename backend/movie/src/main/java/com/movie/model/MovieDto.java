@@ -1,5 +1,7 @@
 package com.movie.model;
 
+import java.util.Date;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,12 +26,12 @@ public class MovieDto {
     private Integer runtime;
     private String ratingTpcd;
     private String movieRelease;
-    private String poster;
-    private Long sales;
-    private String dvdDateFrom;
-    private String dvdDateTo;
-    private Integer dvdPrice;
-    private Integer dvdDiscount;
     private String teaser;
+    private String poster;
     private String background;
+    private int sales;
+    private int discountrate;
+    private String vodState;
+    private String reservationState;
+    private Date CREATE_DATE;
 }

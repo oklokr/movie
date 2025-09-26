@@ -2,38 +2,47 @@
 import Button from "@/components/ui/button";
 import style from "./style.module.scss";
 import Input from "@/components/ui/input";
-import { useSearchParams } from "next/navigation";
-import DatePickerField from "@/components/ui/datePicker";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import RadioGroup from "@/components/ui/radio";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { codeOption } from "@/utils/codeOption";
 import Select from "@/components/ui/select";
+import { requestGetCreatorList, requestGetMovieInfo } from "@/api/admin";
+import { fn_alert } from "@/components/ui/modal/alert";
+import Textarea from "@/components/ui/textarea";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 interface Option {
   label: string;
   value: string | number;
 }
 
-const postForm = {
-  genreCodea: "",
-  genreCodeb: "",
-  genreCodec: "",
-  ratingTpcd: "",
+interface CreatorOption {
+  creatorCode: string;
+  creatorName: string;
+  gender: string;
+}
+
+const defaultPostForm = {
+  genreCodeA: "",
+  genreCodeB: "",
+  genreCodeC: "",
+  ratingTpcd: "2",
   movieName: "",
   synopsis: "",
-  directCodea: "",
-  directCodeb: "",
-  actorCodea: "",
-  actorCodeb: "",
-  actorCodec: "",
-  actorCoded: "",
-  actorCodee: "",
-  vodState: "",
+  directCodeA: "",
+  directCodeB: "",
+  actorCodeA: "",
+  actorCodeB: "",
+  actorCodeC: "",
+  actorCodeD: "",
+  actorCodeE: "",
+  vodState: "Y",
   sales: "",
   discountrate: "",
-  reservationState: "",
+  reservationState: "N",
   poster: "",
 };
 
@@ -42,13 +51,17 @@ function SelectTags({
   selected,
   onChange,
   placeholder,
+  maxLength,
 }: {
   options: Option[];
   selected: Option[];
   onChange: (selected: Option[]) => void;
   placeholder?: string;
+  maxLength: number;
 }) {
   const handleAdd = (val: string | number) => {
+    if (selected.length >= maxLength)
+      return fn_alert(`최대 ${maxLength}개 까지 추가 가능합니다`);
     const exists = selected.some((item) => item.value === val);
     if (exists) {
       onChange(selected.filter((item) => item.value !== val));
@@ -61,7 +74,7 @@ function SelectTags({
   const handelRemove = (val: string | number) =>
     onChange(selected.filter((item) => item.value !== val));
 
-  return (
+  return options ? (
     <>
       <Select
         width={374}
@@ -71,17 +84,23 @@ function SelectTags({
         onChange={handleAdd}
         searchable
       />
-      <ul>
-        {selected.map((item) => (
-          <li key={item.value}>
-            <span>{item.label}</span>
-            <button type="button" onClick={() => handelRemove(item.value)}>
-              삭제
-            </button>
-          </li>
-        ))}
-      </ul>
+      {selected.length > 0 && (
+        <ul className={style["tag-wrap"]}>
+          {selected.map((item) => (
+            <li key={item.value}>
+              <p>
+                <span>{item.label}</span>
+                <button type="button" onClick={() => handelRemove(item.value)}>
+                  <FaRegTrashAlt color="#222" />
+                </button>
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
+  ) : (
+    <></>
   );
 }
 
@@ -90,86 +109,293 @@ export default function Regist() {
 
   const genreTypes = useMemo(() => codeOption(code.GENRE_TPCD), [code]);
   const ratingTypes = useMemo(() => codeOption(code.RATING_TPCD), [code]);
+  const [creatorList, setCreatorList] = useState([]);
 
   const searchParams = useSearchParams();
   const movieCode = searchParams.get("movieId");
   const isEdit = movieCode;
 
-  const [rangeDates, setRangeDates] = useState<[Date | null, Date | null]>([
-    null,
-    null,
-  ]);
-  const [rating, setRating] = useState("all");
   const [genres, setGenres] = useState<Option[]>([]);
   const [directs, setDirects] = useState<Option[]>([]);
   const [actors, setActors] = useState<Option[]>([]);
 
-  const handleRangeChange = (
-    dates: Date | [Date | null, Date | null] | null
-  ) => {
-    if (!Array.isArray(dates)) return;
-    setRangeDates(dates);
+  const [postForm, setPostForm] = useState(defaultPostForm);
+
+  const router = useRouter();
+
+  const fetchCreatorList = () => {
+    requestGetCreatorList().then((res) => {
+      const { code, data, msg } = res;
+      if (code !== 200) return fn_alert(msg);
+      setCreatorList(
+        data.map((item: CreatorOption) => ({
+          label: item.creatorName,
+          value: item.creatorCode,
+        }))
+      );
+    });
   };
 
+  const handleSave = () => {
+    if (genres.length <= 0)
+      return fn_alert("장르는 최소 1개 이상 선택해주세요.");
+    if (postForm.movieName === "") return fn_alert("영화 제목을 입력해주세요.");
+    if (directs.length <= 0)
+      return fn_alert("감독은 최소 1명 이상 선택해주세요.");
+    if (actors.length <= 0)
+      return fn_alert("출연진은 최소 1명 이상 선택해주세요.");
+
+    const inputForm = {
+      ...postForm,
+      genreCodeA: genres[0]?.value ?? "",
+      genreCodeB: genres[1]?.value ?? "",
+      genreCodeC: genres[2]?.value ?? "",
+      directCodeA: directs[0]?.value ?? "",
+      directCodeB: directs[1]?.value ?? "",
+      actorCodeA: actors[0]?.value ?? "",
+      actorCodeB: actors[1]?.value ?? "",
+      actorCodeC: actors[2]?.value ?? "",
+      actorCodeD: actors[3]?.value ?? "",
+      actorCodeE: actors[4]?.value ?? "",
+    };
+
+    console.log(inputForm);
+  };
+
+  const setCodesToOptions = (
+    codes: (string | null | undefined)[],
+    options: Option[]
+  ) => {
+    if (!options) return [];
+    return codes
+      .map((code) => options.find((option) => option.value === code))
+      .filter(Boolean) as Option[];
+  };
+
+  useEffect(() => fetchCreatorList(), []);
   useEffect(() => {
-    console.log(genres);
-  }, [genres]);
+    if (!movieCode) return;
+    requestGetMovieInfo({
+      movieId: String(movieCode),
+    }).then((res) => {
+      const { code, data, msg } = res;
+      if (code !== 200) return fn_alert(msg);
+
+      const {
+        genreCodeA,
+        genreCodeB,
+        genreCodeC,
+        directCodeA,
+        directCodeB,
+        actorCodeA,
+        actorCodeB,
+        actorCodeC,
+        actorCodeD,
+        actorCodeE,
+      } = data;
+
+      const genreCodes = [genreCodeA, genreCodeB, genreCodeC];
+      const directCodes = [directCodeA, directCodeB];
+      const actorCodes = [
+        actorCodeA,
+        actorCodeB,
+        actorCodeC,
+        actorCodeD,
+        actorCodeE,
+      ];
+
+      setGenres(setCodesToOptions(genreCodes, genreTypes));
+      setDirects(setCodesToOptions(directCodes, creatorList));
+      setActors(setCodesToOptions(actorCodes, creatorList));
+
+      setPostForm((prev) => ({
+        ...prev,
+        movieName: data.movieName,
+        synopsis: data.synopsis,
+        ratingTpcd: data.ratingTpcd,
+        poster: data.poster,
+        sales: data.sales,
+        discountrate: data.discountrate,
+        vodState: data.vodState,
+        reservationState: data.reservationState,
+      }));
+    });
+  }, [movieCode, creatorList, genreTypes]);
 
   return (
-    <div>
+    <div className={style["regist-wrap"]}>
       <h2>영화 {isEdit ? "수정" : "등록"}</h2>
 
-      <dl>
-        <dt>장르</dt>
-        <dd>
-          <SelectTags
-            options={genreTypes}
-            selected={genres}
-            onChange={setGenres}
-            placeholder="장르를 선택해주세요."
-          />
-        </dd>
+      <ul className={style["form-wrap"]}>
+        <li className={style.row}>
+          <span className={style.label}>장르</span>
+          <div className={style.content}>
+            <SelectTags
+              options={genreTypes}
+              selected={genres}
+              onChange={setGenres}
+              placeholder="장르를 선택해주세요."
+              maxLength={3}
+            />
+          </div>
+        </li>
+        <li className={style.row}>
+          <span className={style.label}>관람등급</span>
+          <div className={`${style.content} ${style["radio-form"]}`}>
+            <RadioGroup
+              options={ratingTypes}
+              value={postForm.ratingTpcd}
+              onChange={(val) =>
+                setPostForm((prev) => ({ ...prev, ratingTpcd: val }))
+              }
+            />
+          </div>
+        </li>
 
-        <dt>관람등급</dt>
-        <dd>
-          <RadioGroup
-            options={ratingTypes}
-            value={rating}
-            onChange={setRating}
-          ></RadioGroup>
-        </dd>
+        <li>
+          <span className={style.label}>제목</span>
+          <div className={style.content}>
+            <Input
+              placeholder="제목을 입력해주세요."
+              value={postForm.movieName}
+              onChange={(e) =>
+                setPostForm((prev) => ({ ...prev, movieName: e.target.value }))
+              }
+            />
+          </div>
+        </li>
 
-        <dt>제목</dt>
-        <dd>
-          <Input placeholder="제목을 입력해주세요." />
-        </dd>
-        <dt>설명</dt>
-        <dd>
-          <textarea name="" id=""></textarea>
-        </dd>
-        <dt>감독</dt>
-        <dd></dd>
-        <dt>출연진</dt>
-        <dd></dd>
-        <dt>DVD 서비스</dt>
-        <dd>
-          <DatePickerField
-            type="range"
-            startDate={rangeDates[0]}
-            endDate={rangeDates[1]}
-            onChange={handleRangeChange}
-            placeholder="날짜를 선택해주세요."
-          />
-        </dd>
-        <dt>예매 서비스</dt>
-        <dd></dd>
-        <dt>포스터 이미지</dt>
-        <dd></dd>
-      </dl>
+        <li>
+          <span className={style.label}>설명</span>
+          <div className={style.content}>
+            <Textarea
+              placeholder="영화 설명을 입력해주세요."
+              value={postForm.synopsis}
+              onChange={(e) =>
+                setPostForm((prev) => ({ ...prev, synopsis: e.target.value }))
+              }
+            />
+          </div>
+        </li>
+
+        <li>
+          <span className={style.label}>감독</span>
+          <div className={style.content}>
+            <SelectTags
+              options={creatorList}
+              selected={directs}
+              onChange={setDirects}
+              placeholder="감독을 선택해주세요."
+              maxLength={2}
+            />
+          </div>
+        </li>
+
+        <li>
+          <span className={style.label}>출연진</span>
+          <div className={style.content}>
+            <SelectTags
+              options={creatorList}
+              selected={actors}
+              onChange={setActors}
+              placeholder="출연진을 선택해주세요."
+              maxLength={5}
+            />
+          </div>
+        </li>
+
+        <li className={style.row}>
+          <span className={style.label}>DVD 서비스</span>
+          <div className={style.content}>
+            <RadioGroup
+              label={"사용여부"}
+              options={[
+                { label: "Y", value: "Y" },
+                { label: "N", value: "N" },
+              ]}
+              value={postForm.vodState}
+              onChange={(val) =>
+                setPostForm((prev) => ({ ...prev, vodState: val }))
+              }
+              orientation="col"
+              labelWidth={"60px"}
+              labelAlign="left"
+            />
+            <Input
+              label="판매금액"
+              placeholder="금액을 입력해주세요."
+              value={postForm.sales}
+              onChange={(e) =>
+                setPostForm((prev) => ({
+                  ...prev,
+                  sales: e.target.value,
+                }))
+              }
+              orientation="col"
+              labelWidth={"60px"}
+              labelAlign="left"
+              min={0}
+              type="number"
+            >
+              <span style={{ alignSelf: "center" }}>원</span>
+            </Input>
+            <Input
+              label="할인율"
+              placeholder="할인율을 입력해주세요."
+              value={postForm.discountrate}
+              onChange={(e) => {
+                let val = Number(e.target.value);
+                if (val > 100) val = 100;
+                setPostForm((prev) => ({
+                  ...prev,
+                  discountrate: String(val),
+                }));
+              }}
+              labelWidth={"60px"}
+              labelAlign="left"
+              orientation="col"
+              min={0}
+              max={100}
+              type="number"
+            >
+              <span style={{ alignSelf: "center" }}>%</span>
+            </Input>
+          </div>
+        </li>
+
+        <li className={style.row}>
+          <span className={style.label}>예매 서비스</span>
+          <div className={style.content}>
+            <RadioGroup
+              label={"사용여부"}
+              options={[
+                { label: "Y", value: "Y" },
+                { label: "N", value: "N" },
+              ]}
+              value={postForm.reservationState}
+              onChange={(val) =>
+                setPostForm((prev) => ({ ...prev, reservationState: val }))
+              }
+              orientation="col"
+              labelWidth={"60px"}
+              labelAlign="left"
+            />
+          </div>
+        </li>
+
+        <li>
+          <span className={style.label}>포스터 이미지</span>
+          <div className={style.content}></div>
+        </li>
+      </ul>
 
       <div className={style["btn-wrap"]}>
-        <Button variant="yellow">목록</Button>
-        <Button variant="yellow">저장</Button>
+        <Button variant="yellow" onClick={router.back}>
+          목록
+        </Button>
+        <Button variant="yellow" onClick={handleSave}>
+          저장
+        </Button>
       </div>
     </div>
   );

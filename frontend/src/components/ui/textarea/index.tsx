@@ -1,29 +1,22 @@
-"use client";
-
-import React from "react";
-
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface TextAreaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   error?: string;
-  orientation?: string;
+  orientation?: "row" | "col";
   validate?: boolean;
   width?: string | number;
-  labelWidth?: string | number;
-  labelAlign?: "left" | "center" | "right";
   children?: React.ReactNode;
 }
 
-export default function Input({
+export default function Textarea({
   label,
   error,
   orientation = "row",
   validate = false,
   children,
   width,
-  labelWidth = "auto",
-  labelAlign = "left",
   ...props
-}: InputProps) {
+}: TextAreaProps) {
   return (
     <div
       className={`input-wrap ${error ? "error" : ""} ${
@@ -31,14 +24,10 @@ export default function Input({
       } ${validate ? "input-wrap--validate" : ""}`}
       style={{ width: width || "auto" }}
     >
-      {label && (
-        <label style={{ width: labelWidth, textAlign: labelAlign }}>
-          {label}
-        </label>
-      )}
+      {label && <label>{label}</label>}
       <div className="input-content">
         <div className="input-item">
-          <input {...props} />
+          <textarea {...props} />
           {children}
         </div>
         {error && validate && <p className="msg">{error}</p>}

@@ -42,8 +42,13 @@
   .user-menu {
     display: flex;
     margin-left: auto;
-    gap: 16px;
+    gap: 20px;
     color: #fff;
+
+    li {
+      display: flex;
+      align-items: center;
+    }
 
     button {
       display: flex;

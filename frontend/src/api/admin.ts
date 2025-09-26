@@ -60,3 +60,20 @@ export function requestGetMovieInfoList(data: {
     data,
   });
 }
+
+export function requestGetCreatorList(): Promise<requestType> {
+  return request({
+    url: "/api/admin/getCreatorList",
+    method: "post",
+  });
+}
+
+export function requestGetMovieInfo(data: {
+  movieId: string;
+}): Promise<requestType> {
+  return request({
+    url: "/api/admin/getMovieInfo",
+    method: "post",
+    data,
+  });
+}

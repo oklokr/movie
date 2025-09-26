@@ -1,5 +1,6 @@
 package com.movie.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.model.ApiResponse;
+import com.movie.model.CreatorDto;
+import com.movie.model.MovieDto;
 import com.movie.model.MovieInfoListDto;
 import com.movie.model.UserDetailInfoDto;
 import com.movie.model.UserInfoDto;
@@ -59,5 +62,15 @@ public class AdminService {
         );
 
         return ApiResponse.success(data, "영화목록 조회 완료");
+    }
+
+    public ApiResponse<List<CreatorDto>> getCreatorList() {
+        List<CreatorDto> result = adminMapper.getCreatorList();
+        return ApiResponse.success(result, "배우, 감독 리스트를 불러왔습니다");
+    }
+
+    public ApiResponse<MovieDto> getMovieInfo(Map<String, Object> req) {
+        MovieDto result = adminMapper.getMovieInfo((String) req.get("movieId"));
+        return ApiResponse.success(result, "영화 상세정보를 불러왔습니다");
     }
 }
