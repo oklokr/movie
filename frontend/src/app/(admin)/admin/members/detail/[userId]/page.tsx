@@ -13,7 +13,7 @@ import Select from "@/components/ui/select";
 import { useSelector } from "react-redux";
 import { CommonCodeItem } from "@/redux/slices/common";
 import { RootState } from "@/redux/store";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 interface UserInfo {
   userId: string;
@@ -35,8 +35,8 @@ export default function MembersPage() {
   const [selectUserTpcd, setSelectUserTpcd] = useState<string>();
   const [userInfo, setUserInfo] = useState<UserInfo>();
   const code = useSelector((state: RootState) => state.common.code);
-  const searchParams = useSearchParams();
-  const paramUserId = searchParams.get("userId");
+  const params = useParams();
+  const paramUserId = params.userId as string;
   const router = useRouter();
 
   useEffect(() => {

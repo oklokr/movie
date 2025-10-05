@@ -14,5 +14,6 @@ public interface MovieMapper {
     boolean existsMovie(Integer movieCode);
     void batchInsertGenre(InsertGenreDto genre);
     void batchInsertCreator(CreatorDto creator);
-    void batchInsertMovie(MovieDto movie);
+    boolean insertMovie(MovieDto movie);
+    boolean updateMovie(MovieDto movie);
 }

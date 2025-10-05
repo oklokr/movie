@@ -9,14 +9,19 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { codeOption } from "@/utils/codeOption";
 import Select from "@/components/ui/select";
-import { requestGetCreatorList, requestGetMovieInfo } from "@/api/admin";
+import {
+  requestGetCreatorList,
+  requestGetMovieInfo,
+  requestInsertMovie,
+  requestUpdateMovie,
+} from "@/api/admin";
 import { fn_alert } from "@/components/ui/modal/alert";
 import Textarea from "@/components/ui/textarea";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 interface Option {
   label: string;
-  value: string | number;
+  value: string;
 }
 
 interface CreatorOption {
@@ -26,24 +31,27 @@ interface CreatorOption {
 }
 
 const defaultPostForm = {
+  movieCode: "",
   genreCodeA: "",
-  genreCodeB: "",
-  genreCodeC: "",
+  genreCodeB: null,
+  genreCodeC: null,
   ratingTpcd: "2",
   movieName: "",
   synopsis: "",
   directCodeA: "",
-  directCodeB: "",
+  directCodeB: null,
   actorCodeA: "",
-  actorCodeB: "",
-  actorCodeC: "",
-  actorCodeD: "",
-  actorCodeE: "",
-  vodState: "Y",
+  actorCodeB: null,
+  actorCodeC: null,
+  actorCodeD: null,
+  actorCodeE: null,
+  vodState: "N",
   sales: "",
   discountrate: "",
   reservationState: "N",
+  runtime: "",
   poster: "",
+  background: "",
 };
 
 function SelectTags({
@@ -140,6 +148,7 @@ export default function Regist() {
     if (genres.length <= 0)
       return fn_alert("장르는 최소 1개 이상 선택해주세요.");
     if (postForm.movieName === "") return fn_alert("영화 제목을 입력해주세요.");
+    if (postForm.runtime === "") return fn_alert("상영시간을 입력해주세요.");
     if (directs.length <= 0)
       return fn_alert("감독은 최소 1명 이상 선택해주세요.");
     if (actors.length <= 0)
@@ -147,19 +156,38 @@ export default function Regist() {
 
     const inputForm = {
       ...postForm,
+      sales: Number(postForm.sales),
+      discountrate: Number(postForm.discountrate),
+      runtime: Number(postForm.runtime),
       genreCodeA: genres[0]?.value ?? "",
-      genreCodeB: genres[1]?.value ?? "",
-      genreCodeC: genres[2]?.value ?? "",
+      genreCodeB: genres[1]?.value ?? null,
+      genreCodeC: genres[2]?.value ?? null,
       directCodeA: directs[0]?.value ?? "",
-      directCodeB: directs[1]?.value ?? "",
+      directCodeB: directs[1]?.value ?? null,
       actorCodeA: actors[0]?.value ?? "",
-      actorCodeB: actors[1]?.value ?? "",
-      actorCodeC: actors[2]?.value ?? "",
-      actorCodeD: actors[3]?.value ?? "",
-      actorCodeE: actors[4]?.value ?? "",
+      actorCodeB: actors[1]?.value ?? null,
+      actorCodeC: actors[2]?.value ?? null,
+      actorCodeD: actors[3]?.value ?? null,
+      actorCodeE: actors[4]?.value ?? null,
     };
 
-    console.log(inputForm);
+    if (movieCode) {
+      inputForm.movieCode = movieCode;
+      requestUpdateMovie(inputForm).then((res) => {
+        const { code, msg } = res;
+        if (code !== 200) return fn_alert(msg);
+        fn_alert(msg);
+        router.back();
+      });
+      return;
+    }
+
+    requestInsertMovie(inputForm).then((res) => {
+      const { code, msg } = res;
+      if (code !== 200) return fn_alert(msg);
+      fn_alert(msg);
+      router.back();
+    });
   };
 
   const setCodesToOptions = (
@@ -211,9 +239,11 @@ export default function Regist() {
       setPostForm((prev) => ({
         ...prev,
         movieName: data.movieName,
+        runtime: data.runtime,
         synopsis: data.synopsis,
         ratingTpcd: data.ratingTpcd,
         poster: data.poster,
+        background: data.background,
         sales: data.sales,
         discountrate: data.discountrate,
         vodState: data.vodState,
@@ -252,7 +282,7 @@ export default function Regist() {
           </div>
         </li>
 
-        <li>
+        <li className={style.row}>
           <span className={style.label}>제목</span>
           <div className={style.content}>
             <Input
@@ -262,6 +292,21 @@ export default function Regist() {
                 setPostForm((prev) => ({ ...prev, movieName: e.target.value }))
               }
             />
+          </div>
+        </li>
+        <li className={style.row}>
+          <span className={style.label}>상영시간</span>
+          <div className={style.content}>
+            <Input
+              placeholder="상영시간을 입력해주세요."
+              value={postForm.runtime}
+              onChange={(e) =>
+                setPostForm((prev) => ({ ...prev, runtime: e.target.value }))
+              }
+              type="number"
+            >
+              <span style={{ alignSelf: "center" }}>분</span>
+            </Input>
           </div>
         </li>
 
@@ -383,9 +428,29 @@ export default function Regist() {
           </div>
         </li>
 
-        <li>
+        <li className={style.row}>
           <span className={style.label}>포스터 이미지</span>
-          <div className={style.content}></div>
+          <div className={style.content}>
+            <Input
+              placeholder="포스터url를 입력해주세요."
+              value={postForm.poster}
+              onChange={(e) =>
+                setPostForm((prev) => ({ ...prev, poster: e.target.value }))
+              }
+            />
+          </div>
+        </li>
+        <li className={style.row}>
+          <span className={style.label}>배경 이미지</span>
+          <div className={style.content}>
+            <Input
+              placeholder="배경 이미지url를 입력해주세요."
+              value={postForm.background}
+              onChange={(e) =>
+                setPostForm((prev) => ({ ...prev, background: e.target.value }))
+              }
+            />
+          </div>
         </li>
       </ul>
 

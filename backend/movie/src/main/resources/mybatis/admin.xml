@@ -107,4 +107,12 @@
     <select id="getCreatorList">
         SELECT * FROM CREATOR
     </select>
+
+    <select id="getTheater">
+        SELECT * FROM THEATER;
+    </select>
+
+    <select id="getScheduleList">
+        SELECT * FROM run_schedule WHERE RUN_DATE = ${runDate} AND THEATER_CODE = ${theaterCode};
+    </select>
 </mapper>

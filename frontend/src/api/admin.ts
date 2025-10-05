@@ -77,3 +77,67 @@ export function requestGetMovieInfo(data: {
     data,
   });
 }
+
+export function requestInsertMovie(data: {
+  movieCode: string;
+  genreCodeA: string | null;
+  genreCodeB: string | null;
+  genreCodeC: string | null;
+  movieName: string;
+  directCodeA: string;
+  directCodeB: string | null;
+  actorCodeA: string;
+  actorCodeB: string | null;
+  actorCodeC: string | null;
+  actorCodeD: string | null;
+  actorCodeE: string | null;
+  synopsis: string;
+  runtime: number;
+  ratingTpcd: string;
+  // movieRelease: string;
+  // teaser: string;
+  poster: string;
+  background: string;
+  sales: number;
+  discountrate: number;
+  vodState: string;
+  reservationState: string;
+}): Promise<requestType> {
+  return request({
+    url: "/api/admin/insertMovie",
+    method: "post",
+    data,
+  });
+}
+
+export function requestUpdateMovie(data: {
+  movieCode: string;
+  genreCodeA: string | null;
+  genreCodeB: string | null;
+  genreCodeC: string | null;
+  movieName: string;
+  directCodeA: string;
+  directCodeB: string | null;
+  actorCodeA: string;
+  actorCodeB: string | null;
+  actorCodeC: string | null;
+  actorCodeD: string | null;
+  actorCodeE: string | null;
+  synopsis: string;
+  runtime: number;
+  ratingTpcd: string;
+  // movieRelease: string;
+  // teaser: string;
+  poster: string;
+  background: string;
+  sales: number;
+  discountrate: number;
+  vodState: string;
+  reservationState: string;
+}): Promise<requestType> {
+  return request({
+    url: "/api/admin/updateMovie",
+    method: "post",
+    data,
+  });
+}

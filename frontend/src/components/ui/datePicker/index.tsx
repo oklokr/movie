@@ -4,15 +4,15 @@ import { ko } from "date-fns/locale";
 import DatePicker from "react-datepicker";
 
 interface DatePickerFieldProps {
-  type?: "single" | "range"; // 기본 single
+  type?: "single" | "range";
   label?: string;
   error?: string;
   orientation?: string;
   validate?: boolean;
   width?: string | number;
-  value?: Date | null; // 단일 선택일 때
-  startDate?: Date | null; // 기간 선택일 때
-  endDate?: Date | null; // 기간 선택일 때
+  value?: Date | null;
+  startDate?: Date | null;
+  endDate?: Date | null;
   onChange: (date: Date | [Date | null, Date | null] | null) => void;
   placeholder?: string;
   minDate?: Date;
@@ -25,7 +25,7 @@ export default function DatePickerField({
   type = "single",
   label,
   error,
-  orientation,
+  orientation = "row",
   validate,
   width,
   value = null,

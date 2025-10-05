@@ -10,19 +10,19 @@
 
   <select id="existsGenre" resultType="boolean">
       SELECT EXISTS (
-          SELECT 1 FROM GENRE WHERE GENRE_CODE = #{genreCode}
+        SELECT 1 FROM GENRE WHERE GENRE_CODE = #{genreCode}
       )
   </select>
 
   <select id="existsCreator" resultType="boolean">
       SELECT EXISTS (
-          SELECT 1 FROM CREATOR WHERE CREATOR_CODE = #{creatorCode}
+        SELECT 1 FROM CREATOR WHERE CREATOR_CODE = #{creatorCode}
       )
   </select>
 
   <select id="existsMovie" resultType="boolean">
       SELECT EXISTS (
-          SELECT 1 FROM MOVIE WHERE MOVIE_CODE = #{movieCode}
+        SELECT 1 FROM MOVIE WHERE MOVIE_CODE = #{movieCode}
       )
   </select>
 
@@ -32,69 +32,94 @@
 
   <insert id="batchInsertGenre">
       INSERT INTO GENRE (
-          GENRE_CODE,
-          GENRE_NAME
+        GENRE_CODE,
+        GENRE_NAME
       ) VALUES (
-          #{genreCode},
-          #{genreName}
+        #{genreCode},
+        #{genreName}
       )
   </insert>
 
   <insert id="batchInsertCreator">
       INSERT INTO CREATOR (
-          CREATOR_CODE,
-          CREATOR_NAME,
-          GENDER
+        CREATOR_CODE,
+        CREATOR_NAME,
+        GENDER
       ) VALUES (
-          #{creatorCode},
-          #{creatorName},
-          #{gender}
+        #{creatorCode},
+        #{creatorName},
+        #{gender}
       )
   </insert>
 
-  <insert id="batchInsertMovie">
+  <insert id="insertMovie">
       INSERT INTO MOVIE (
-          MOVIE_CODE,
-          GENRE_CODEA,
-          GENRE_CODEB,
-          GENRE_CODEC,
-          MOVIE_NAME,
-          DIRECT_CODEA,
-          DIRECT_CODEB,
-          ACTOR_CODEA,
-          ACTOR_CODEB,
-          ACTOR_CODEC,
-          ACTOR_CODED,
-          ACTOR_CODEE,
-          SYNOPSIS,
-          RUNTIME,
-          RATING_TPCD,
-          MOVIE_RELEASE,
-          TEASER,
-          POSTER,
-          BACKGROUND,
-          SALES
+        MOVIE_CODE,
+        GENRE_CODEA,
+        GENRE_CODEB,
+        GENRE_CODEC,
+        MOVIE_NAME,
+        DIRECT_CODEA,
+        DIRECT_CODEB,
+        ACTOR_CODEA,
+        ACTOR_CODEB,
+        ACTOR_CODEC,
+        ACTOR_CODED,
+        ACTOR_CODEE,
+        SYNOPSIS,
+        RUNTIME,
+        RATING_TPCD,
+        MOVIE_RELEASE,
+        TEASER,
+        POSTER,
+        BACKGROUND,
+        SALES
       ) VALUES (
-          #{movieCode},
-          #{genreCodeA},
-          #{genreCodeB},
-          #{genreCodeC},
-          #{movieName},
-          #{directCodeA},
-          #{directCodeB},
-          #{actorCodeA},
-          #{actorCodeB},
-          #{actorCodeC},
-          #{actorCodeD},
-          #{actorCodeE},
-          #{synopsis},
-          #{runtime},
-          #{ratingTpcd},
-          #{movieRelease},
-          #{teaser},
-          #{poster},
-          #{background},
-          #{sales}
+        #{movieCode},
+        #{genreCodeA},
+        #{genreCodeB},
+        #{genreCodeC},
+        #{movieName},
+        #{directCodeA},
+        #{directCodeB},
+        #{actorCodeA},
+        #{actorCodeB},
+        #{actorCodeC},
+        #{actorCodeD},
+        #{actorCodeE},
+        #{synopsis},
+        #{runtime},
+        #{ratingTpcd},
+        #{movieRelease},
+        #{teaser},
+        #{poster},
+        #{background},
+        #{sales}
       )
   </insert>
+
+  <update id="updateMovie">
+    UPDATE MOVIE SET 
+        GENRE_CODEA = #{genreCodeA},
+        GENRE_CODEB = #{genreCodeB},
+        GENRE_CODEC = #{genreCodeC},
+        RATING_TPCD = #{ratingTpcd},
+        MOVIE_NAME = #{movieName},
+        SYNOPSIS = #{synopsis},
+        DIRECT_CODEA = #{directCodeA},
+        DIRECT_CODEB = #{directCodeB},
+        ACTOR_CODEA = #{actorCodeA},
+        ACTOR_CODEB = #{actorCodeB},
+        ACTOR_CODEC = #{actorCodeC},
+        ACTOR_CODED = #{actorCodeD},
+        ACTOR_CODEE = #{actorCodeE},
+        VOD_STATE = #{vodState},
+        SALES = #{sales},
+        DISCOUNTRATE = #{discountrate},
+        RESERVATION_STATE = #{reservationState},
+        RUNTIME = #{runtime},
+        POSTER = #{poster},
+        BACKGROUND = #{background}
+    WHERE MOVIE_CODE = #{movieCode}
+  </update>
 </mapper>

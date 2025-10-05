@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.movie.model.CreatorDto;
 import com.movie.model.MovieDto;
 import com.movie.model.MovieInfoListDto;
+import com.movie.model.ScheduleListDto;
 import com.movie.model.UserDetailInfoDto;
 import com.movie.model.UserInfoDto;
 
@@ -28,4 +29,5 @@ public interface AdminMapper {
     int countMovieInfoList(String movieName);
     List<CreatorDto> getCreatorList();
     MovieDto getMovieInfo(String movieId);
+    List<ScheduleListDto> getScheduleList(@Param("runDate") String runDate, @Param("theaterCode") String scheduleCode);
 }

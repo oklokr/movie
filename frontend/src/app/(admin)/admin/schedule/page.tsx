@@ -1,3 +1,5 @@
+import ScheduleForm from "./component/scheduleForm";
+
 export default async function SchedulePage() {
-  return <div>schedule</div>;
+  return <ScheduleForm />;
 }

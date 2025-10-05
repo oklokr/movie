@@ -148,7 +148,7 @@ public class MovieBatchService {
             .background("https://image.tmdb.org/t/p/w1280" + detail.getBackdrop_path())
             .build();
 
-        movieMapper.batchInsertMovie(movieDto);
+        movieMapper.insertMovie(movieDto);
 
         log.info("🎬 저장 완료: {} | 개봉 {} | 장르 {}", detail.getTitle(), detail.getRelease_date(),
             detail.getGenres().stream().map(TMDBGenreDto::getName).collect(Collectors.joining(", ")));

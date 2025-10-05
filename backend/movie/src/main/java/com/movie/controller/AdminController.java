@@ -51,4 +51,19 @@ public class AdminController {
     public ResponseEntity<?> getMovieInfo(@RequestBody Map<String, Object> req) {
         return ResponseEntity.ok(adminService.getMovieInfo(req));
     }
+
+    @PostMapping("/insertMovie")
+    public ResponseEntity<?> insertMovie(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(adminService.insertMovie(req));
+    }
+
+    @PostMapping("/updateMovie")
+    public ResponseEntity<?> updateMovie(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(adminService.updateMovie(req));
+    }
+
+    @PostMapping("/getScheduleList")
+    public ResponseEntity<?> getScheduleList(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(adminService.getScheduleList(req));
+    }
 }

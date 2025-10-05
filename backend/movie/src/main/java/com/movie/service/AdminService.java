@@ -1,5 +1,8 @@
 package com.movie.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,14 +14,17 @@ import com.movie.model.ApiResponse;
 import com.movie.model.CreatorDto;
 import com.movie.model.MovieDto;
 import com.movie.model.MovieInfoListDto;
+import com.movie.model.ScheduleListDto;
 import com.movie.model.UserDetailInfoDto;
 import com.movie.model.UserInfoDto;
 import com.movie.repository.AdminMapper;
+import com.movie.repository.MovieMapper;
 import com.movie.util.PagingUtils;
 
 @Service
 public class AdminService {
     @Autowired AdminMapper adminMapper;
+    @Autowired MovieMapper movieMapper;
     @Autowired ObjectMapper objectMapper;
 
     public ApiResponse<Map<String, Object>> getUserList(Map<String, Object> req) {
@@ -72,5 +78,33 @@ public class AdminService {
     public ApiResponse<MovieDto> getMovieInfo(Map<String, Object> req) {
         MovieDto result = adminMapper.getMovieInfo((String) req.get("movieId"));
         return ApiResponse.success(result, "영화 상세정보를 불러왔습니다");
+    }
+
+    public ApiResponse<Boolean> insertMovie(Map<String, Object> req) {
+        MovieDto movieDto = objectMapper.convertValue(req, MovieDto.class);
+        String movieCode = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+
+        movieDto.setMovieCode(movieCode);
+        Boolean result = movieMapper.insertMovie(movieDto);
+
+        if(result) return ApiResponse.success(true, "영화 등록이 완료되었습니다.");
+        return ApiResponse.error(false, "영화 등록이 실패했습니다.");
+    }
+
+    public ApiResponse<Boolean> updateMovie(Map<String,Object> req) {
+        MovieDto movieDto = objectMapper.convertValue(req, MovieDto.class);
+
+        Boolean result = movieMapper.updateMovie(movieDto);
+
+        if(result) return ApiResponse.success(true, "영화 수정이 완료되었습니다.");
+        return ApiResponse.error(false, "영화 수정이 실패했습니다");
+    }
+
+    public ApiResponse<List<ScheduleListDto>> getScheduleList(Map<String, Object> req) {
+        String runDate = (String) req.get("runDate");
+        String theaterCode = (String) req.get("theaterCode");
+        List<ScheduleListDto> result = adminMapper.getScheduleList(runDate, theaterCode);
+
+        return ApiResponse.success(result, "상영정보를 불러왔습니다.");
     }
 }
