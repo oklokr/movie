@@ -110,7 +110,7 @@ public class AdminService {
         return ApiResponse.success(theaterList, "상영관 정보를 불러왔습니다.");
     }
 
-    public ApiResponse<List<TheaterDto>> insertTheater() {
+    public ApiResponse<List<TheaterDto>> insertTheater(Map<String, Object> req) {
         String code = adminMapper.getTheaterCode();
         String name = Integer.parseInt(code) + "관";
         boolean result = adminMapper.insertTheater("T" + code, name);
@@ -118,6 +118,10 @@ public class AdminService {
 
         List<TheaterDto> theaterList = adminMapper.getTheater();
         if(theaterList == null || theaterList.isEmpty()) return ApiResponse.error(null, "상영관 정보불러오기 실패입니다.");
+        for(TheaterDto theater : theaterList) {
+            List<ScheduleListDto> schedules = adminMapper.getScheduleList((String) req.get("runDate"), theater.getTheaterCode());
+            theater.setSchedules(schedules);
+        }
 
         return ApiResponse.success(theaterList, "상영관 추가가 완료되었습니다");
     }

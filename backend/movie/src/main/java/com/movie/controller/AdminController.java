@@ -67,8 +67,8 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getTheater(req));
     }
     @PostMapping("/insertTheater")
-    public ResponseEntity<?> insertTheater() {
-        return ResponseEntity.ok(adminService.insertTheater());
+    public ResponseEntity<?> insertTheater(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(adminService.insertTheater(req));
     }
     
     @PostMapping("/insertRunSchedule")

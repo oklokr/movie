@@ -151,10 +151,13 @@ export function requestGetTheater(data: {
     data,
   });
 }
-export function requestInsertTheater(): Promise<requestType> {
+export function requestInsertTheater(data: {
+  runDate: string;
+}): Promise<requestType> {
   return request({
     url: "/api/admin/insertTheater",
     method: "post",
+    data,
   });
 }
 export function requestInsertRunSchedule(data: {

@@ -128,12 +128,15 @@ export default function ScheduleForm() {
   }, [postForm.runDate]);
 
   const handleInsertTheater = () => {
-    requestInsertTheater().then((res) => {
+    requestInsertTheater({
+      runDate: dayjs(postForm.runDate).format("YYYY-MM-DD"),
+    }).then((res) => {
       const { code, data, msg } = res;
       if (code !== 200) return fn_alert(msg);
       setTheaterList(data);
     });
   };
+
   const handleTimeClick = (theaterCode: string, hour: string) => {
     if (postForm.theaterCode !== theaterCode) {
       setPostForm((prev) => ({
