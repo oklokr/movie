@@ -14,11 +14,15 @@ import Image from "next/image";
 interface MovieData {
   movieCode: string;
   movieName: string;
+  synopsis: string;
   poster: string;
-  price: number;
-  discount: number;
+  runtime: number;
+  sales: number;
+  discountrate: number;
   vodState: string;
   reservationState: string;
+  ratingTpcd: string;
+  ratingTpcdName: string;
 }
 
 export default function MovieTable() {
@@ -50,6 +54,7 @@ export default function MovieTable() {
       const { code, data, msg } = res;
       if (code !== 200) return fn_alert(msg);
       setTotal(data.total);
+      console.log(data.list);
       setMovieList(data.list);
       setLoading(false);
     });
@@ -104,7 +109,6 @@ export default function MovieTable() {
         <Button
           type="button"
           variant="yellow"
-          size="small"
           width={72}
           onClick={handleSearch}
         >

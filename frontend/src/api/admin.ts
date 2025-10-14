@@ -141,3 +141,34 @@ export function requestUpdateMovie(data: {
     data,
   });
 }
+
+export function requestGetTheater(data: {
+  runDate: string;
+}): Promise<requestType> {
+  return request({
+    url: "/api/admin/getTheater",
+    method: "post",
+    data,
+  });
+}
+export function requestInsertTheater(): Promise<requestType> {
+  return request({
+    url: "/api/admin/insertTheater",
+    method: "post",
+  });
+}
+export function requestInsertRunSchedule(data: {
+  theaterCode: string;
+  movieCode: string;
+  runDate: string;
+  startTime: string;
+  endTime: string;
+  sales: number;
+  discountrate: number;
+}): Promise<requestType> {
+  return request({
+    url: "/api/admin/insertRunSchedule",
+    method: "post",
+    data,
+  });
+}

@@ -134,7 +134,7 @@ export default function SignupForm() {
           error={signupForm.userId.msg}
           onChange={handleChange}
         >
-          <Button size="small" variant="yellow" onClick={handleCheckId}>
+          <Button size="medium" variant="yellow" onClick={handleCheckId}>
             중복확인
           </Button>
         </Input>
@@ -179,7 +179,7 @@ export default function SignupForm() {
           onChange={handleChange}
         />
 
-        <Button variant="yellow" onClick={handleSignup}>
+        <Button variant="yellow" size="large" onClick={handleSignup}>
           회원가입
         </Button>
       </div>

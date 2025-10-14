@@ -1,4 +1,24 @@
 .input-wrap {
+  &.light {
+    label {
+      color: #222;
+    }
+    .input-content {
+      label {
+        color: #222;
+      }
+    }
+    input {
+      border: 1px solid #dcdfe6;
+      background: #fff;
+      color: #222;
+
+      &:focus {
+        border-color: #409eff;
+        box-shadow: 0 0 4px #409eff;
+      }
+    }
+  }
   label {
     display: block;
     font-size: 14px;
@@ -226,9 +246,9 @@
     border-bottom: 1px solid #444;
   }
   .react-datepicker__day-names {
-    padding: 0 0.4rem;
+    padding: 0 0.8px;
     border-bottom: 1px solid #888;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.8px;
   }
   .react-datepicker__current-month,
   .react-datepicker__day-name span,
@@ -266,6 +286,7 @@
   padding: 10px 20px;
   border-radius: 6px;
   font-size: 16px;
+  line-height: 1;
   font-weight: 500;
   cursor: pointer;
   border: none;
@@ -287,18 +308,18 @@
   }
 
   &.small {
-    padding: 6px 14px;
-    font-size: 14px;
+    padding: 8px 14px;
+    font-size: 12px;
   }
 
   &.medium {
     padding: 12px 20px;
-    font-size: 16px;
+    font-size: 14px;
   }
 
   &.large {
-    padding: 14px 26px;
-    font-size: 20px;
+    padding: 12px 26px;
+    font-size: 16px;
   }
 }
 
@@ -354,9 +375,20 @@
     border-collapse: collapse;
   }
 
+  &.light {
+    thead {
+      color: #222;
+      background-color: #ddd;
+    }
+    tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+  }
+
   thead {
-    background-color: #444;
     color: #ddd;
+    background-color: #444;
+
     th {
       font-size: 14px;
       font-weight: 500;
@@ -391,33 +423,6 @@
       }
     }
   }
-
-  .pagination {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 16px;
-
-    button {
-      padding: 6px 12px;
-      background: #222;
-      color: #ddd;
-      border: 1px solid #444;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-
-      &:hover {
-        background: #333;
-      }
-
-      &.active {
-        background: #ffcc00;
-        color: #000;
-        border-color: #ffcc00;
-      }
-    }
-  }
 }
 
 .pagenation {
@@ -426,23 +431,79 @@
   gap: 8px;
   margin-top: 16px;
 
+  &.light button {
+    color: #222;
+    background: initial;
+
+    &:hover {
+      background: #f9f9f9;
+    }
+
+    &.active {
+      color: #fff;
+      border-color: #0070f3;
+      background: #0070f3;
+    }
+  }
+
   button {
-    padding: 6px 12px;
-    background: #222;
+    font-size: 14px;
     color: #ddd;
+    padding: 6px 12px;
     border: 1px solid #444;
     border-radius: 4px;
+    background: #222;
     cursor: pointer;
-    font-size: 14px;
 
     &:hover {
       background: #333;
     }
 
     &.active {
-      background: #ffcc00;
       color: #000;
       border-color: #ffcc00;
+      background: #ffcc00;
+    }
+  }
+}
+
+.form-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #666;
+  margin-top: 24px;
+  > li {
+    display: flex;
+    width: 100%;
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #666;
+    }
+
+    &.row {
+      width: 50%;
+    }
+    .label {
+      display: flex;
+      width: 160px;
+      background: #333;
+      padding: 16px 8px;
+    }
+
+    .content {
+      display: flex;
+      gap: 4px;
+      flex-direction: column;
+      width: calc(100% - 160px);
+      padding: 4px 8px;
+
+      > span {
+        display: flex;
+        height: 100%;
+        align-items: center;
+      }
+    }
+    .radio-form {
+      padding-top: 18px;
     }
   }
 }

@@ -121,7 +121,6 @@ export default function UserTable() {
         <Button
           type="button"
           variant="yellow"
-          size="small"
           width={72}
           onClick={handleSearch}
         >

@@ -8,7 +8,9 @@ import lombok.Setter;
 public class MovieInfoListDto {
     private String movieCode;
     private String movieName;
+    private String synopsis;
     private String poster;
+    private int runtime;
     private int sales;
     private int discountrate;
     private String vodState;

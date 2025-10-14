@@ -96,7 +96,7 @@ export default function MembersPage() {
                 <dt>전화번호</dt>
                 <dd>{userInfo?.tel}</dd>
               </dl>
-              <Button size="small" variant="yellow" onClick={handleResetPasswd}>
+              <Button variant="yellow" onClick={handleResetPasswd}>
                 비밀번호 초기화
               </Button>
             </div>
@@ -120,11 +120,7 @@ export default function MembersPage() {
                   />
                 </dd>
               </dl>
-              <Button
-                size="small"
-                variant="yellow"
-                onClick={handleChangeUserTpcd}
-              >
+              <Button variant="yellow" onClick={handleChangeUserTpcd}>
                 적용
               </Button>
             </div>
@@ -133,7 +129,7 @@ export default function MembersPage() {
       </div>
 
       <div className={style["btn-wrap"]}>
-        <Button variant="yellow" onClick={router.back}>
+        <Button variant="secondary" onClick={router.back}>
           뒤로가기
         </Button>
       </div>

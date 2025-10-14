@@ -6,22 +6,22 @@
 
   > div {
     width: 400px;
-    padding: 2rem;
+    padding: 32px;
     border-radius: 12px;
     border: 1px solid #888;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   }
   h2 {
-    font-size: 1.8rem;
+    font-size: 30px;
     font-weight: bold;
     color: #fff;
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
   }
 }
 
 .message {
-  margin-top: 1rem;
-  font-size: 0.85rem;
+  margin-top: 16px;
+  font-size: 14px;
   color: #aaa;
   text-align: center;
   a {

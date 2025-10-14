@@ -68,14 +68,7 @@
 
     <select id="getMovieInfoList">
         SELECT
-            m.MOVIE_CODE,
-            m.MOVIE_NAME,
-            m.POSTER,
-            m.SALES,
-            m.DISCOUNTRATE,
-            m.VOD_STATE,
-            m.RESERVATION_STATE,
-            m.RATING_TPCD,
+            m.*,
             c.COMMON_NAME AS RATING_TPCD_NAME
         FROM MOVIE m
         LEFT JOIN COMMON_CODE c
@@ -108,11 +101,37 @@
         SELECT * FROM CREATOR
     </select>
 
+    <select id="getTheaterCode">
+        SELECT LPAD(
+            IFNULL(MAX(CAST(SUBSTRING(THEATER_CODE, 2) AS UNSIGNED)), 0) + 1,
+            5,
+            '0'
+        )
+        FROM THEATER;
+    </select>
+    <insert id="insertTheater">
+        INSERT INTO THEATER (THEATER_CODE, THEATER_NAME)
+        VALUES (#{theaterCode}, #{theaterName})
+    </insert>
+
     <select id="getTheater">
         SELECT * FROM THEATER;
     </select>
-
     <select id="getScheduleList">
-        SELECT * FROM run_schedule WHERE RUN_DATE = ${runDate} AND THEATER_CODE = ${theaterCode};
+        SELECT * FROM run_schedule WHERE RUN_DATE = #{runDate} AND THEATER_CODE = #{theaterCode};
+    </select>
+    <insert id="insertRunSchedule">
+        INSERT INTO RUN_SCHEDULE (SCHEDULE_CODE, THEATER_CODE, MOVIE_CODE, RUN_DATE, START_TIME, END_TIME, PRICE, DISCOUNTRATE)
+        VALUES (#{scheduleCode}, #{theaterCode}, #{movieCode}, #{runDate}, #{startTime}, #{endTime}, #{sales}, #{discountrate})
+    </insert>
+    <select id="checkRunSchedule">
+        SELECT COUNT(*)
+        FROM RUN_SCHEDULE
+        WHERE THEATER_CODE = #{theaterCode}
+            AND RUN_DATE = #{runDate}
+            AND NOT (
+                END_TIME &lt;= #{startTime} OR
+                START_TIME &gt;= #{endTime}
+            )
     </select>
 </mapper>

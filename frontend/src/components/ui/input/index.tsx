@@ -10,6 +10,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   width?: string | number;
   labelWidth?: string | number;
   labelAlign?: "left" | "center" | "right";
+  light?: boolean;
   children?: React.ReactNode;
 }
 
@@ -22,13 +23,14 @@ export default function Input({
   width,
   labelWidth = "auto",
   labelAlign = "left",
+  light = false,
   ...props
 }: InputProps) {
   return (
     <div
       className={`input-wrap ${error ? "error" : ""} ${
         orientation === "col" ? "input-wrap--col" : ""
-      } ${validate ? "input-wrap--validate" : ""}`}
+      } ${validate ? "input-wrap--validate" : ""} ${light ? "light" : ""}`}
       style={{ width: width || "auto" }}
     >
       {label && (

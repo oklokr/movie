@@ -62,8 +62,17 @@ public class AdminController {
         return ResponseEntity.ok(adminService.updateMovie(req));
     }
 
-    @PostMapping("/getScheduleList")
-    public ResponseEntity<?> getScheduleList(@RequestBody Map<String, Object> req) {
-        return ResponseEntity.ok(adminService.getScheduleList(req));
+    @PostMapping("/getTheater")
+    public ResponseEntity<?> getTheater(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(adminService.getTheater(req));
+    }
+    @PostMapping("/insertTheater")
+    public ResponseEntity<?> insertTheater() {
+        return ResponseEntity.ok(adminService.insertTheater());
+    }
+    
+    @PostMapping("/insertRunSchedule")
+    public ResponseEntity<?> insertRunSchedule(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(adminService.insertRunSchedule(req));
     }
 }

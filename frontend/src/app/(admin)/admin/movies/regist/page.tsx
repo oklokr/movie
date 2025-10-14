@@ -256,10 +256,10 @@ export default function Regist() {
     <div className={style["regist-wrap"]}>
       <h2>영화 {isEdit ? "수정" : "등록"}</h2>
 
-      <ul className={style["form-wrap"]}>
-        <li className={style.row}>
-          <span className={style.label}>장르</span>
-          <div className={style.content}>
+      <ul className="form-wrap">
+        <li className="row">
+          <span className="label">장르</span>
+          <div className="content">
             <SelectTags
               options={genreTypes}
               selected={genres}
@@ -269,9 +269,9 @@ export default function Regist() {
             />
           </div>
         </li>
-        <li className={style.row}>
-          <span className={style.label}>관람등급</span>
-          <div className={`${style.content} ${style["radio-form"]}`}>
+        <li className="row">
+          <span className="label">관람등급</span>
+          <div className="content radio-form">
             <RadioGroup
               options={ratingTypes}
               value={postForm.ratingTpcd}
@@ -282,9 +282,9 @@ export default function Regist() {
           </div>
         </li>
 
-        <li className={style.row}>
-          <span className={style.label}>제목</span>
-          <div className={style.content}>
+        <li className="row">
+          <span className="label">제목</span>
+          <div className="content">
             <Input
               placeholder="제목을 입력해주세요."
               value={postForm.movieName}
@@ -294,9 +294,9 @@ export default function Regist() {
             />
           </div>
         </li>
-        <li className={style.row}>
-          <span className={style.label}>상영시간</span>
-          <div className={style.content}>
+        <li className="row">
+          <span className="label">상영시간</span>
+          <div className="content">
             <Input
               placeholder="상영시간을 입력해주세요."
               value={postForm.runtime}
@@ -311,8 +311,8 @@ export default function Regist() {
         </li>
 
         <li>
-          <span className={style.label}>설명</span>
-          <div className={style.content}>
+          <span className="label">설명</span>
+          <div className="content">
             <Textarea
               placeholder="영화 설명을 입력해주세요."
               value={postForm.synopsis}
@@ -324,8 +324,8 @@ export default function Regist() {
         </li>
 
         <li>
-          <span className={style.label}>감독</span>
-          <div className={style.content}>
+          <span className="label">감독</span>
+          <div className="content">
             <SelectTags
               options={creatorList}
               selected={directs}
@@ -337,8 +337,8 @@ export default function Regist() {
         </li>
 
         <li>
-          <span className={style.label}>출연진</span>
-          <div className={style.content}>
+          <span className="label">출연진</span>
+          <div className="content">
             <SelectTags
               options={creatorList}
               selected={actors}
@@ -349,9 +349,9 @@ export default function Regist() {
           </div>
         </li>
 
-        <li className={style.row}>
-          <span className={style.label}>DVD 서비스</span>
-          <div className={style.content}>
+        <li className="row">
+          <span className="label">DVD 서비스</span>
+          <div className="content">
             <RadioGroup
               label={"사용여부"}
               options={[
@@ -408,9 +408,9 @@ export default function Regist() {
           </div>
         </li>
 
-        <li className={style.row}>
-          <span className={style.label}>예매 서비스</span>
-          <div className={style.content}>
+        <li className="row">
+          <span className="label">예매 서비스</span>
+          <div className="content">
             <RadioGroup
               label={"사용여부"}
               options={[
@@ -428,9 +428,9 @@ export default function Regist() {
           </div>
         </li>
 
-        <li className={style.row}>
-          <span className={style.label}>포스터 이미지</span>
-          <div className={style.content}>
+        <li className="row">
+          <span className="label">포스터 이미지</span>
+          <div className="content">
             <Input
               placeholder="포스터url를 입력해주세요."
               value={postForm.poster}
@@ -440,9 +440,9 @@ export default function Regist() {
             />
           </div>
         </li>
-        <li className={style.row}>
-          <span className={style.label}>배경 이미지</span>
-          <div className={style.content}>
+        <li className="row">
+          <span className="label">배경 이미지</span>
+          <div className="content">
             <Input
               placeholder="배경 이미지url를 입력해주세요."
               value={postForm.background}
@@ -455,10 +455,10 @@ export default function Regist() {
       </ul>
 
       <div className={style["btn-wrap"]}>
-        <Button variant="yellow" onClick={router.back}>
+        <Button variant="secondary" width={92} onClick={router.back}>
           목록
         </Button>
-        <Button variant="yellow" onClick={handleSave}>
+        <Button variant="yellow" width={92} onClick={handleSave}>
           저장
         </Button>
       </div>

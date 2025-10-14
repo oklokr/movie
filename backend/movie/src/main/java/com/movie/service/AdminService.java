@@ -2,7 +2,6 @@ package com.movie.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import com.movie.model.CreatorDto;
 import com.movie.model.MovieDto;
 import com.movie.model.MovieInfoListDto;
 import com.movie.model.ScheduleListDto;
+import com.movie.model.TheaterDto;
 import com.movie.model.UserDetailInfoDto;
 import com.movie.model.UserInfoDto;
 import com.movie.repository.AdminMapper;
@@ -100,11 +100,44 @@ public class AdminService {
         return ApiResponse.error(false, "영화 수정이 실패했습니다");
     }
 
-    public ApiResponse<List<ScheduleListDto>> getScheduleList(Map<String, Object> req) {
-        String runDate = (String) req.get("runDate");
-        String theaterCode = (String) req.get("theaterCode");
-        List<ScheduleListDto> result = adminMapper.getScheduleList(runDate, theaterCode);
+    public ApiResponse<List<TheaterDto>> getTheater(Map<String, Object> req) {
+        List<TheaterDto> theaterList = adminMapper.getTheater();
+        if(theaterList == null || theaterList.isEmpty()) return ApiResponse.error(null, "상영관 정보불러오기 실패입니다.");
+        for(TheaterDto theater : theaterList) {
+            List<ScheduleListDto> schedules = adminMapper.getScheduleList((String) req.get("runDate"), theater.getTheaterCode());
+            theater.setSchedules(schedules);
+        }
+        return ApiResponse.success(theaterList, "상영관 정보를 불러왔습니다.");
+    }
 
-        return ApiResponse.success(result, "상영정보를 불러왔습니다.");
+    public ApiResponse<List<TheaterDto>> insertTheater() {
+        String code = adminMapper.getTheaterCode();
+        String name = Integer.parseInt(code) + "관";
+        boolean result = adminMapper.insertTheater("T" + code, name);
+        if(!result) ApiResponse.error(null, "상영관 추가가 실패했습니다.");
+
+        List<TheaterDto> theaterList = adminMapper.getTheater();
+        if(theaterList == null || theaterList.isEmpty()) return ApiResponse.error(null, "상영관 정보불러오기 실패입니다.");
+
+        return ApiResponse.success(theaterList, "상영관 추가가 완료되었습니다");
+    }
+
+    public ApiResponse<Boolean> insertRunSchedule(Map<String, Object> req) {
+        String scheduleCode = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        String theaterCode = (String) req.get("theaterCode");
+        String movieCode = (String) req.get("movieCode");
+        String runDate = (String) req.get("runDate");
+        String startTime = (String) req.get("startTime");
+        String endTime = (String) req.get("endTime");
+        Number sales = (Number) req.get("sales");
+        Number discountrate = (Number) req.get("discountrate");
+
+        int conflictCount = adminMapper.checkRunSchedule(theaterCode, runDate, startTime, endTime);
+        if(conflictCount > 0) return ApiResponse.error(false, "해당 시간에 이미 상영 스케쥴이 존재합니다.");
+        
+        Boolean result = adminMapper.insertRunSchedule(scheduleCode, theaterCode, movieCode, runDate, startTime, endTime, sales, discountrate);
+        if(result) return ApiResponse.success(true, "상영등록이 완료되었습니다.");
+
+        return ApiResponse.error(false, "상영 스케쥴 등록에 실패했습니다.");        
     }
 }

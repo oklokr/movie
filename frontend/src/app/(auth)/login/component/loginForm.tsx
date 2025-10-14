@@ -79,7 +79,7 @@ export default function LoginForm() {
           <Link href="/findPw">비밀번호 찾기</Link>
         </li>
       </ul>
-      <Button width="100%" onClick={handleLogin}>
+      <Button width="100%" size="large" onClick={handleLogin}>
         로그인
       </Button>
     </div>

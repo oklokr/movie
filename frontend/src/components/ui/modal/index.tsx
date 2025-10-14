@@ -2,6 +2,8 @@
 
 import React from "react";
 import style from "./modal.module.scss";
+import Button from "../button";
+import { IoCloseOutline } from "react-icons/io5";
 
 interface ModalProps {
   visible: boolean;
@@ -11,6 +13,7 @@ interface ModalProps {
   onConfirm?: () => void;
   cancelText?: string;
   confirmText?: string;
+  size?: "sm" | "md" | "lg";
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -21,24 +24,47 @@ const Modal: React.FC<ModalProps> = ({
   onConfirm,
   cancelText,
   confirmText,
+  size = "sm",
 }) => {
   if (!visible) return null;
 
+  // size
+  // sm: "400px",
+  // md: "500px",
+  // lg: "600px",
+
   return (
     <div className={style.overlay}>
-      <div className={style.modal}>
-        {title && <h3 className={style.title}>{title}</h3>}
+      <div className={`${style.modal} ${style[size]}`}>
+        {title && (
+          <h3 className={style.title}>
+            {title}
+            {size !== "sm" && (
+              <button className={style["close-btn"]} onClick={onClose}>
+                <IoCloseOutline size={50} />
+              </button>
+            )}
+          </h3>
+        )}
         <div className={style.content}>{content}</div>
         <div className={style.footer}>
           {cancelText && (
-            <button className={style.cancel} onClick={onClose}>
+            <Button
+              variant="secondary"
+              width={size === "lg" ? "50%" : "auto"}
+              onClick={onClose}
+            >
               {cancelText}
-            </button>
+            </Button>
           )}
           {onConfirm && confirmText && (
-            <button className={style.confirm} onClick={onConfirm}>
+            <Button
+              variant="primary"
+              width={size === "lg" ? "50%" : "auto"}
+              onClick={onConfirm}
+            >
               {confirmText}
-            </button>
+            </Button>
           )}
         </div>
       </div>

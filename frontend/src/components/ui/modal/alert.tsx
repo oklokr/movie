@@ -16,6 +16,7 @@ export function ModalManager() {
   // Confirm 상태
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [confirmMessage, setConfirmMessage] = useState("");
+  const [confirmHasCancel, setConfirmHasCancel] = useState(true);
   const [onOk, setOnOk] = useState<Callback>(() => () => {});
   const [onCancel, setOnCancel] = useState<Callback>(() => () => {});
 
@@ -30,6 +31,11 @@ export function ModalManager() {
     setConfirmMessage(msg);
     setOnOk(() => ok);
     setOnCancel(() => cancel || (() => {}));
+    if (cancel) {
+      setConfirmHasCancel(true);
+    } else {
+      setConfirmHasCancel(false);
+    }
     setConfirmVisible(true);
   };
 
@@ -56,7 +62,7 @@ export function ModalManager() {
           onOk();
           setConfirmVisible(false);
         }}
-        cancelText="취소"
+        cancelText={confirmHasCancel ? "취소" : undefined}
         confirmText="확인"
       />
     </>
