@@ -153,9 +153,9 @@
   .movie-info {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    min-height: 120px;
-    padding-left: 140px;
+    gap: 8px 0;
+    min-height: 180px;
+    padding-left: 200px;
     position: relative;
     margin-top: 16px;
 
@@ -178,12 +178,14 @@
       position: absolute;
       top: 0;
       left: 0;
+      overflow: hidden;
+      border-radius: 4px;
 
       .image {
         display: flex;
         align-items: center;
-        width: 120px;
-        height: 120px;
+        width: 180px;
+        height: 180px;
       }
     }
   }

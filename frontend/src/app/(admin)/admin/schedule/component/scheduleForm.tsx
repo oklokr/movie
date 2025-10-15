@@ -187,6 +187,7 @@ export default function ScheduleForm() {
 
   const handleAddMovieList = () => {
     handleSearch(1);
+    setPostForm((prev) => ({ ...prev, movieCode: "" }));
     setTableInfo((prev) => ({ ...prev, selectVisible: true }));
   };
   const handleSearch = (pageNum: number = 1) => {
@@ -492,7 +493,7 @@ export default function ScheduleForm() {
                             <dt>설명</dt>
                             <dd>{selectMovie.synopsis}</dd>
                             <dt>상영시간</dt>
-                            <dd>{selectMovie.runtime}</dd>
+                            <dd>{selectMovie.runtime} 분</dd>
                             <dt>관람등급</dt>
                             <dd>{selectMovie.ratingTpcdName}</dd>
                             <dt className={style["poster-label"]}>포스터</dt>
