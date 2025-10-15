@@ -46,7 +46,7 @@ const defaultPostForm = {
   actorCodeD: null,
   actorCodeE: null,
   vodState: "N",
-  sales: "",
+  price: "",
   discountrate: "",
   reservationState: "N",
   runtime: "",
@@ -156,7 +156,7 @@ export default function Regist() {
 
     const inputForm = {
       ...postForm,
-      sales: Number(postForm.sales),
+      price: Number(postForm.price),
       discountrate: Number(postForm.discountrate),
       runtime: Number(postForm.runtime),
       genreCodeA: genres[0]?.value ?? "",
@@ -244,7 +244,7 @@ export default function Regist() {
         ratingTpcd: data.ratingTpcd,
         poster: data.poster,
         background: data.background,
-        sales: data.sales,
+        price: data.price,
         discountrate: data.discountrate,
         vodState: data.vodState,
         reservationState: data.reservationState,
@@ -369,11 +369,11 @@ export default function Regist() {
             <Input
               label="판매금액"
               placeholder="금액을 입력해주세요."
-              value={postForm.sales}
+              value={postForm.price}
               onChange={(e) =>
                 setPostForm((prev) => ({
                   ...prev,
-                  sales: e.target.value,
+                  price: e.target.value,
                 }))
               }
               orientation="col"

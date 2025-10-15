@@ -34,6 +34,7 @@ public class MovieDto {
     private String poster;
     private String background;
     private int sales;
+    private int price;
     private int discountrate;
     private String vodState;
     private String reservationState;

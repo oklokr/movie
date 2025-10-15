@@ -40,7 +40,7 @@ public interface AdminMapper {
         @Param("runDate") String runDate,
         @Param("startTime") String startTime,
         @Param("endTime") String endTime,
-        @Param("sales") Number sales,
+        @Param("price") Number price,
         @Param("discountrate") Number discountrate
     );
     int checkRunSchedule(

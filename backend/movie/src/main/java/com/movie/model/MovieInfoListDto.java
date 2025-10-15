@@ -12,6 +12,7 @@ public class MovieInfoListDto {
     private String poster;
     private int runtime;
     private int sales;
+    private int price;
     private int discountrate;
     private String vodState;
     private String reservationState;

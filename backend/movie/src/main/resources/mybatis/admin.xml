@@ -122,7 +122,7 @@
     </select>
     <insert id="insertRunSchedule">
         INSERT INTO RUN_SCHEDULE (SCHEDULE_CODE, THEATER_CODE, MOVIE_CODE, RUN_DATE, START_TIME, END_TIME, PRICE, DISCOUNTRATE)
-        VALUES (#{scheduleCode}, #{theaterCode}, #{movieCode}, #{runDate}, #{startTime}, #{endTime}, #{sales}, #{discountrate})
+        VALUES (#{scheduleCode}, #{theaterCode}, #{movieCode}, #{runDate}, #{startTime}, #{endTime}, #{price}, #{discountrate})
     </insert>
     <select id="checkRunSchedule">
         SELECT COUNT(*)

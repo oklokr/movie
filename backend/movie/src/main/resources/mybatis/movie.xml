@@ -73,7 +73,8 @@
         TEASER,
         POSTER,
         BACKGROUND,
-        SALES
+        PRICE,
+        DISCOUNTRATE
       ) VALUES (
         #{movieCode},
         #{genreCodeA},
@@ -94,32 +95,33 @@
         #{teaser},
         #{poster},
         #{background},
-        #{sales}
+        #{price},
+        #{discountrate}
       )
   </insert>
 
   <update id="updateMovie">
     UPDATE MOVIE SET 
-        GENRE_CODEA = #{genreCodeA},
-        GENRE_CODEB = #{genreCodeB},
-        GENRE_CODEC = #{genreCodeC},
-        RATING_TPCD = #{ratingTpcd},
-        MOVIE_NAME = #{movieName},
-        SYNOPSIS = #{synopsis},
-        DIRECT_CODEA = #{directCodeA},
-        DIRECT_CODEB = #{directCodeB},
-        ACTOR_CODEA = #{actorCodeA},
-        ACTOR_CODEB = #{actorCodeB},
-        ACTOR_CODEC = #{actorCodeC},
-        ACTOR_CODED = #{actorCodeD},
-        ACTOR_CODEE = #{actorCodeE},
-        VOD_STATE = #{vodState},
-        SALES = #{sales},
-        DISCOUNTRATE = #{discountrate},
-        RESERVATION_STATE = #{reservationState},
-        RUNTIME = #{runtime},
-        POSTER = #{poster},
-        BACKGROUND = #{background}
+      GENRE_CODEA = #{genreCodeA},
+      GENRE_CODEB = #{genreCodeB},
+      GENRE_CODEC = #{genreCodeC},
+      RATING_TPCD = #{ratingTpcd},
+      MOVIE_NAME = #{movieName},
+      SYNOPSIS = #{synopsis},
+      DIRECT_CODEA = #{directCodeA},
+      DIRECT_CODEB = #{directCodeB},
+      ACTOR_CODEA = #{actorCodeA},
+      ACTOR_CODEB = #{actorCodeB},
+      ACTOR_CODEC = #{actorCodeC},
+      ACTOR_CODED = #{actorCodeD},
+      ACTOR_CODEE = #{actorCodeE},
+      VOD_STATE = #{vodState},
+      PRICE = #{price},
+      DISCOUNTRATE = #{discountrate},
+      RESERVATION_STATE = #{reservationState},
+      RUNTIME = #{runtime},
+      POSTER = #{poster},
+      BACKGROUND = #{background}
     WHERE MOVIE_CODE = #{movieCode}
   </update>
 </mapper>

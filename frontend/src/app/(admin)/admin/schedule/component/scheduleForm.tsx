@@ -57,7 +57,7 @@ interface PostForm {
   runDate: Date | null;
   startTime: string;
   endTime: string;
-  sales: string;
+  price: string;
   discountrate: string;
   movieCode: string;
 }
@@ -68,7 +68,7 @@ interface MovieData {
   synopsis: string;
   poster: string;
   runtime: number;
-  sales: number;
+  price: number;
   discountrate: number;
   vodState: string;
   reservationState: string;
@@ -100,7 +100,7 @@ export default function ScheduleForm() {
     synopsis: "",
     poster: "",
     runtime: 0,
-    sales: 0,
+    price: 0,
     discountrate: 0,
     vodState: "",
     reservationState: "",
@@ -112,7 +112,7 @@ export default function ScheduleForm() {
     runDate: dayjs().toDate(),
     startTime: "",
     endTime: "",
-    sales: "",
+    price: "",
     discountrate: "",
     movieCode: "",
   });
@@ -222,14 +222,14 @@ export default function ScheduleForm() {
       return fn_alert("상영시간을 1시간 이상 선택해주세요.");
     if (step === 1) return setStep(2);
 
-    if (Number(postForm.sales) <= 0) return fn_alert("금액을 입력해주세요.");
+    if (Number(postForm.price) <= 0) return fn_alert("금액을 입력해주세요.");
     if (postForm.movieCode === "") return fn_alert("영화 정보를 선택해주세요.");
 
     const payload = {
       ...postForm,
       runDate: dayjs(postForm.runDate).format("YYYY-MM-DD"),
       discountrate: Number(postForm.discountrate),
-      sales: Number(postForm.sales),
+      price: Number(postForm.price),
     };
 
     requestInsertRunSchedule(payload).then(({ code, msg }) => {
@@ -369,11 +369,11 @@ export default function ScheduleForm() {
                 <div className="content">
                   <Input
                     placeholder="금액을 입력해주세요."
-                    value={postForm.sales}
+                    value={postForm.price}
                     onChange={(e) =>
                       setPostForm((prev) => ({
                         ...prev,
-                        sales: e.target.value,
+                        price: e.target.value,
                       }))
                     }
                     min={0}

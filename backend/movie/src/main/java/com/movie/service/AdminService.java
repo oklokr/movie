@@ -133,13 +133,13 @@ public class AdminService {
         String runDate = (String) req.get("runDate");
         String startTime = (String) req.get("startTime");
         String endTime = (String) req.get("endTime");
-        Number sales = (Number) req.get("sales");
+        Number price = (Number) req.get("price");
         Number discountrate = (Number) req.get("discountrate");
 
         int conflictCount = adminMapper.checkRunSchedule(theaterCode, runDate, startTime, endTime);
         if(conflictCount > 0) return ApiResponse.error(false, "해당 시간에 이미 상영 스케쥴이 존재합니다.");
         
-        Boolean result = adminMapper.insertRunSchedule(scheduleCode, theaterCode, movieCode, runDate, startTime, endTime, sales, discountrate);
+        Boolean result = adminMapper.insertRunSchedule(scheduleCode, theaterCode, movieCode, runDate, startTime, endTime, price, discountrate);
         if(result) return ApiResponse.success(true, "상영등록이 완료되었습니다.");
 
         return ApiResponse.error(false, "상영 스케쥴 등록에 실패했습니다.");        

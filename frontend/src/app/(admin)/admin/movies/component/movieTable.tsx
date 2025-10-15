@@ -17,7 +17,7 @@ interface MovieData {
   synopsis: string;
   poster: string;
   runtime: number;
-  sales: number;
+  price: number;
   discountrate: number;
   vodState: string;
   reservationState: string;
@@ -87,7 +87,11 @@ export default function MovieTable() {
         </div>
       ),
     },
-    { label: "DVD금액", key: "sales" },
+    {
+      label: "DVD금액",
+      key: "price",
+      render: (movie: MovieData) => movie.price.toLocaleString(),
+    },
     { label: "DVD할인율", key: "discountrate" },
     { label: "DVD판매 활성화", key: "vodState" },
     { label: "예매 활성화", key: "reservationState" },

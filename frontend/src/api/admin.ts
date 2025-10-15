@@ -98,7 +98,7 @@ export function requestInsertMovie(data: {
   // teaser: string;
   poster: string;
   background: string;
-  sales: number;
+  price: number;
   discountrate: number;
   vodState: string;
   reservationState: string;
@@ -130,7 +130,7 @@ export function requestUpdateMovie(data: {
   // teaser: string;
   poster: string;
   background: string;
-  sales: number;
+  price: number;
   discountrate: number;
   vodState: string;
   reservationState: string;
@@ -166,7 +166,7 @@ export function requestInsertRunSchedule(data: {
   runDate: string;
   startTime: string;
   endTime: string;
-  sales: number;
+  price: number;
   discountrate: number;
 }): Promise<requestType> {
   return request({
