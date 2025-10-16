@@ -87,7 +87,7 @@ export default function MovieDetail({ targetMovie, onClose }) {
       );
     if (movieDetail?.ratingTpcd === "1" && !(await verification())) return;
 
-    const { paymentId } = await PortOne.requestPayment({
+    const portReq = await PortOne.requestPayment({
       storeId: "store-b8a100e7-dc2e-4038-9c32-d5cdd79add6b",
       channelKey: "channel-key-8443f953-cb4f-4e90-8dd8-87b6def02536",
       paymentId: generateUUID(),
@@ -101,9 +101,13 @@ export default function MovieDetail({ targetMovie, onClose }) {
         email: "test@portone.io",
       },
     });
+
+    if (portReq.code === "FAILURE_TYPE_PG")
+      return fn_alert("결제를 취소했습니다.");
+
     const { code, msg } = await requestInsertOrderHistory({
       movieCode: movieDetail.movieCode,
-      orderCode: paymentId,
+      orderCode: portReq.paymentId,
       orderTpye: "VOD",
       price: movieDetail.price,
       userId: userInfo.userId,
