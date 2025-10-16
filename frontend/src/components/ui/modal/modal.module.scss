@@ -37,9 +37,18 @@
 }
 
 .close-btn {
+  display: flex;
   position: absolute;
   top: 8px;
   right: 8px;
+  border-radius: 12px;
+  transition: 0.3s;
+  background: transparent;
+  z-index: 1;
+
+  &:hover {
+    background: #0000004d;
+  }
 }
 
 .title {

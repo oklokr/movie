@@ -13,6 +13,7 @@ interface ModalProps {
   onConfirm?: () => void;
   cancelText?: string;
   confirmText?: string;
+  closeColor?: "black" | "white";
   size?: "sm" | "md" | "lg";
 }
 
@@ -24,6 +25,7 @@ const Modal: React.FC<ModalProps> = ({
   onConfirm,
   cancelText,
   confirmText,
+  closeColor = "black",
   size = "sm",
 }) => {
   if (!visible) return null;
@@ -36,12 +38,12 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <div className={style.overlay}>
       <div className={`${style.modal} ${style[size]}`}>
-        {title && (
+        {(title || size !== "sm") && (
           <h3 className={style.title}>
             {title}
             {size !== "sm" && (
               <button className={style["close-btn"]} onClick={onClose}>
-                <IoCloseOutline size={50} />
+                <IoCloseOutline size={50} color={closeColor} />
               </button>
             )}
           </h3>

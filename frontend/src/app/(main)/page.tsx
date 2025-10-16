@@ -1,22 +1,33 @@
-// import { requestLogin } from "@/api/common";
+import {
+  requestGetAvailableMovieList,
+  requestGetPopularityMovieList,
+  requestGetRandomMovieList,
+} from "@/api/main";
+import Banner from "./component/banner";
+import SlideList from "./component/slideList";
+import PopularityList from "./component/popularityList";
+import RandomList from "./component/randomList";
 
 export default async function MainPage() {
-  // let result = null;
-  // try {
-  //   result = await requestLogin({ id: "user", passwd: "1234" });
-  //   console.log(result);
-  // } catch (err) {
-  //   console.log(err);
-  // }
+  let availableList = null;
+  let popularityList = null;
+  let randomList = null;
+  let bannerList = null;
+  try {
+    availableList = await requestGetAvailableMovieList();
+    popularityList = await requestGetPopularityMovieList();
+    randomList = await requestGetRandomMovieList();
+    bannerList = randomList?.data?.slice(0, 5) || [];
+  } catch (err) {
+    console.log(err);
+  }
 
   return (
     <div className="main-wrap">
-      <section>영역1</section>
-      <div>배너</div>
-      <section>영역2</section>
-      <div>배너</div>
-      <section>영역3</section>
-      <section>영역4</section>
+      <Banner list={bannerList} />
+      <SlideList list={availableList?.data} />
+      <PopularityList list={popularityList?.data} />
+      <RandomList list={randomList?.data} />
     </div>
   );
 }

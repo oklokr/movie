@@ -47,3 +47,15 @@ export function requestGetCodeList(): Promise<requestType> {
     method: "post",
   });
 }
+
+export function requestGetVerification(getId: string) {
+  return request({
+    url: `https://api.portone.io/identity-verifications/${encodeURIComponent(
+      getId
+    )}`,
+    method: "get",
+    headers: {
+      Authorization: `PortOne w6LyhMckJqzDQrMvmDeRqWCXkJtvZWWRDPnm8HEOxCTNUTAbfOGuPOI7jSf3N2lsL1R16wVGEAft3kGA`,
+    },
+  } as Any);
+}

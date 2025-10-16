@@ -1,5 +1,7 @@
 package com.movie.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +13,9 @@ import com.movie.security.JwtTokenProvider;
 
 @Service
 public class UserService {
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private JwtTokenProvider tokenProvider;
-    @Autowired 
-    private ObjectMapper objectMapper;
+    @Autowired private UserMapper userMapper;
+    @Autowired private JwtTokenProvider tokenProvider;
+    @Autowired private ObjectMapper objectMapper;
 
     public ApiResponse<UserInfoDto> userInfo(String token) {
         if(token == null || !tokenProvider.validateToken(token)) {
@@ -30,5 +29,11 @@ public class UserService {
         }
 
         return ApiResponse.success(user, "유저정보를 가져왔습니다.");
+    }
+
+    public ApiResponse<Boolean> updateUserAdult(Map<String, Object> req) {
+        Boolean result = userMapper.updateUserAdult((String) req.get("userId"), (String) req.get("adult"));
+        if(!result) return ApiResponse.error(result, "성인인증을 실패했습니다.");
+        return ApiResponse.success(result, "성인인증 성공했습니다");
     }
 }

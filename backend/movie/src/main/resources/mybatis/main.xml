@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.movie.repository.MainMapper">
+    <select id="getPopularityMovieList">
+        SELECT m.*
+        FROM ORDER_HISTORY o
+        LEFT JOIN MOVIE m ON o.MOVIE_CODE = m.MOVIE_CODE
+        WHERE m.VOD_STATE = 'Y'
+        GROUP BY MOVIE_CODE
+        ORDER BY COUNT(*) DESC
+        LIMIT 5;
+    </select>
+    <select id="getAvailableMovieList">
+        SELECT * FROM MOVIE
+        WHERE RESERVATION_STATE = 'Y'
+        ORDER BY MOVIE_RELEASE
+        LIMIT 30;
+    </select>
+
+    <select id="getRandomMovieList">
+        SELECT * FROM MOVIE
+        WHERE VOD_STATE = 'Y' OR RESERVATION_STATE = 'Y'
+        ORDER BY RAND()
+        LIMIT 30;
+    </select>
+
+    <select id="getMovieList">
+        SELECT * FROM MOVIE
+        <where>
+            VOD_STATE = 'Y' OR RESERVATION_STATE = 'Y'
+            <!-- 장르 필터 -->
+            <if test="genreTpcd != null and genreTpcd != ''">
+                AND ( 
+                    GENRE_CODEA = #{genreTpcd}
+                    OR GENRE_CODEB = #{genreTpcd}
+                    OR GENRE_CODEC = #{genreTpcd} 
+                )
+            </if>
+            <!-- 제목 검색 -->
+            <if test="keyword != null and keyword != ''">
+                AND MOVIE_NAME LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+
+        ORDER BY MOVIE_RELEASE DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+    <select id="countMovieList">
+        SELECT COUNT(*) FROM MOVIE
+        <where>
+            VOD_STATE = 'Y' OR RESERVATION_STATE = 'Y'
+            <!-- 장르 필터 -->
+            <if test="genreTpcd != null and genreTpcd != ''">
+                AND ( 
+                    GENRE_CODEA = #{genreTpcd}
+                    OR GENRE_CODEB = #{genreTpcd}
+                    OR GENRE_CODEC = #{genreTpcd} 
+                )
+            </if>
+            <!-- 제목 검색 -->
+            <if test="keyword != null and keyword != ''">
+                AND MOVIE_NAME LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getMovieDetail">
+        SELECT 
+            m.*,
+            code1.COMMON_NAME AS genreA,
+            code2.COMMON_NAME AS genreB,
+            code3.COMMON_NAME AS genreC,
+            d1.CREATOR_NAME AS directA,
+            d2.CREATOR_NAME AS directB,
+            a1.CREATOR_NAME AS actorA,
+            a2.CREATOR_NAME AS actorB,
+            a3.CREATOR_NAME AS actorC,
+            a4.CREATOR_NAME AS actorD,
+            a5.CREATOR_NAME AS actorE
+        FROM MOVIE m
+        LEFT JOIN COMMON_CODE code1 ON m.GENRE_CODEA = code1.COMMON_VALUE AND code1.COMMON_CODE = 'GENRE_TPCD'
+        LEFT JOIN COMMON_CODE code2 ON m.GENRE_CODEB = code2.COMMON_VALUE AND code2.COMMON_CODE = 'GENRE_TPCD'
+        LEFT JOIN COMMON_CODE code3 ON m.GENRE_CODEC = code3.COMMON_VALUE AND code3.COMMON_CODE = 'GENRE_TPCD'
+        LEFT JOIN CREATOR d1 ON m.DIRECT_CODEA = d1.CREATOR_CODE
+        LEFT JOIN CREATOR d2 ON m.DIRECT_CODEB = d2.CREATOR_CODE
+        LEFT JOIN CREATOR a1 ON m.ACTOR_CODEA = a1.CREATOR_CODE
+        LEFT JOIN CREATOR a2 ON m.ACTOR_CODEB = a2.CREATOR_CODE
+        LEFT JOIN CREATOR a3 ON m.ACTOR_CODEC = a3.CREATOR_CODE
+        LEFT JOIN CREATOR a4 ON m.ACTOR_CODED = a4.CREATOR_CODE
+        LEFT JOIN CREATOR a5 ON m.ACTOR_CODEE = a5.CREATOR_CODE
+        WHERE m.MOVIE_CODE = #{movieCode};
+    </select>
+
+    <insert id="insertOrderHistory">
+        INSERT INTO ORDER_HISTORY (ORDER_CODE, USER_ID, MOVIE_CODE, PRICE, ORDER_TYPE)
+        VALUES (#{orderCode}, #{userId}, #{movieCode}, #{price}, #{orderTpye})
+    </insert>
+</mapper>

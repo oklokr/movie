@@ -26,6 +26,16 @@ public class MovieDto {
     private String actorCodeC;
     private String actorCodeD;
     private String actorCodeE;
+    private String genreA;
+    private String genreB;
+    private String genreC;
+    private String directA;
+    private String directB;
+    private String actorA;
+    private String actorB;
+    private String actorC;
+    private String actorD;
+    private String actorE;
     private String synopsis;
     private Integer runtime;
     private String ratingTpcd;
