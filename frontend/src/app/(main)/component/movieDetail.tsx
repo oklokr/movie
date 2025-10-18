@@ -124,9 +124,10 @@ export default function MovieDetail({ targetMovie, onClose }) {
         <>
           <div className={style.image}>
             <Image
-              src={movieDetail?.background}
-              alt={movieDetail?.movieName}
+              src={movieDetail?.background || "/images/fallback.png"}
+              alt={movieDetail?.movieName || "No image"}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw"
               style={{ objectFit: "cover" }}
               priority
             />

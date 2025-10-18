@@ -1,0 +1,83 @@
+.dvd-wrap {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+
+  li {
+    display: flex;
+    gap: 48px;
+    width: calc((100% / 2) - 12px);
+    padding: 12px 20px;
+    position: relative;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+
+    .image {
+      display: flex;
+      width: 200px;
+      aspect-ratio: 200 / 120;
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: -12px -20px;
+    }
+
+    p {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 4px;
+
+      span {
+        font-size: 14px;
+      }
+
+      .tag {
+        display: flex;
+        gap: 4px;
+
+        span {
+          color: #222;
+          background: #ffcc00;
+          padding: 2px 4px;
+          border-radius: 4px;
+        }
+      }
+    }
+
+    .btn-view {
+      text-indent: -999999px;
+      color: transparent;
+      font-size: 1px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+  }
+}
+
+.player-body {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0;
+  margin-bottom: -20px;
+  background-color: #000;
+}
+
+.player-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover;
+  border-radius: 0 0 16px 16px;
+}
+
+.empty {
+  color: #ccc;
+  font-size: 16px;
+}

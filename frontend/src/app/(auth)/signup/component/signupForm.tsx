@@ -172,7 +172,7 @@ export default function SignupForm() {
           id="tel"
           label="전화번호"
           type="text"
-          placeholder="010-0000-0000"
+          placeholder="-를 뺴고 입력해주세요."
           value={signupForm.tel.value}
           validate
           error={signupForm.tel.msg}

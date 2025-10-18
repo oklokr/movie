@@ -1,28 +1,15 @@
-.mypage-wrap {
+.tab-wrap {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 20px 120px;
   margin-top: 34px;
-  gap: 24px;
-
-  .tab-wrap {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-    padding: 20px 120px;
-    border: 1px solid #888;
-    border-radius: 4px;
-    button {
-      color: #fff;
-      font-size: 18px;
-      &.active {
-        color: #ffcc00;
-      }
+  border: 1px solid #888;
+  border-radius: 4px;
+  a {
+    font-size: 18px;
+    &.active {
+      color: #ffcc00;
     }
-  }
-  .mypage-item {
-    flex: 1;
-    padding: 20px;
-    border: 1px solid #888;
-    border-radius: 4px;
   }
 }

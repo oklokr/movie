@@ -74,6 +74,11 @@ export default function Header({ layoutState = "default" }: LayoutState) {
   };
 
   useEffect(() => {
+    setTimeout(() => setMyMenuVisible(false), 100);
+    setTimeout(() => setMyMenuState(false), 0);
+  }, [pathname]);
+
+  useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (
         myMenuVisible &&
@@ -217,12 +222,14 @@ export default function Header({ layoutState = "default" }: LayoutState) {
             >
               <ul>
                 <li>
-                  <Link href="/mypage">MY</Link>
+                  <Link href="/mypage/info">MY</Link>
                 </li>
-                <li>나의 DVD</li>
-                <li>결제내역</li>
-                <li>고객센터</li>
-                <li>설정</li>
+                <li>
+                  <Link href="/mypage/dvd">나의 DVD</Link>
+                </li>
+                <li>
+                  <Link href="/mypage/payment">결제내역</Link>
+                </li>
                 {info?.userTpcd === "2" && (
                   <li>
                     <Link href="/admin/members">관리자</Link>

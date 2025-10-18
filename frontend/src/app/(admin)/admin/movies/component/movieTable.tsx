@@ -79,10 +79,12 @@ export default function MovieTable() {
       render: (movie: MovieData) => (
         <div className={style.image}>
           <Image
-            src={movie.poster}
-            alt={movie.movieName}
+            src={movie.poster || "/images/fallback.png"}
+            alt={movie.movieName || "No image"}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw"
             style={{ objectFit: "cover" }}
+            priority
           />
         </div>
       ),

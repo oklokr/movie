@@ -14,7 +14,7 @@ interface ModalProps {
   cancelText?: string;
   confirmText?: string;
   closeColor?: "black" | "white";
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
 }
 
 const Modal: React.FC<ModalProps> = ({

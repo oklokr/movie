@@ -7,4 +7,53 @@
     <update id="updateUserAdult">
         UPDATE MEMBERS SET ADULT = #{adult} WHERE USER_ID = #{userId}
     </update>
+
+    <update id="updateUserInfo">
+        UPDATE MEMBERS SET
+            PASSWD = #{passwd},
+            EMAIL = #{email},
+            tel = #{tel}
+        WHERE USER_ID = #{userId}
+    </update>
+
+    <select id="getOrderHistory">
+        SELECT 
+            o.*,
+            m.MOVIE_NAME
+        FROM ORDER_HISTORY o
+        LEFT JOIN MOVIE m ON o.MOVIE_CODE = m.MOVIE_CODE
+        WHERE USER_ID = #{userID}
+
+        ORDER BY o.ORDER_DATE DESC
+        LIMIT #{size} OFFSET #{offset};
+    </select>
+    <select id="countOrderHistory">
+        SELECT COUNT(*)
+        FROM ORDER_HISTORY o
+        LEFT JOIN MOVIE m ON o.MOVIE_CODE = m.MOVIE_CODE
+        WHERE USER_ID = #{userID}
+    </select>
+
+    <select id="getVodList">
+        SELECT 
+            m.*,
+            code1.COMMON_NAME AS genreA,
+            code2.COMMON_NAME AS genreB,
+            code3.COMMON_NAME AS genreC,
+            t.LAST_ORDER_DATE
+        FROM MOVIE m
+        JOIN (
+            SELECT 
+                o.MOVIE_CODE,
+                MAX(o.ORDER_DATE) AS LAST_ORDER_DATE
+            FROM ORDER_HISTORY o
+            WHERE o.USER_ID = #{userId}
+                AND o.ORDER_TYPE = 'RESERVATION'
+            GROUP BY o.MOVIE_CODE
+        ) t ON m.MOVIE_CODE = t.MOVIE_CODE
+        LEFT JOIN COMMON_CODE code1 ON m.GENRE_CODEA = code1.COMMON_VALUE AND code1.COMMON_CODE = 'GENRE_TPCD'
+        LEFT JOIN COMMON_CODE code2 ON m.GENRE_CODEB = code2.COMMON_VALUE AND code2.COMMON_CODE = 'GENRE_TPCD'
+        LEFT JOIN COMMON_CODE code3 ON m.GENRE_CODEC = code3.COMMON_VALUE AND code3.COMMON_CODE = 'GENRE_TPCD'
+        ORDER BY t.LAST_ORDER_DATE DESC
+    </select>
 </mapper>

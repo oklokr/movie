@@ -23,9 +23,10 @@ export default function PopularityList({ list }) {
               <div className={style.image}>
                 <strong>{idx + 1}</strong>
                 <Image
-                  src={item.poster}
-                  alt={item.movieName}
+                  src={item.poster || "/images/fallback.png"}
+                  alt={item.movieName || "No image"}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw"
                   style={{ objectFit: "cover" }}
                   priority
                 />

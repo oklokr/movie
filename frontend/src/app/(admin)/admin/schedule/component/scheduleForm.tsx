@@ -500,10 +500,14 @@ export default function ScheduleForm() {
                             <dd className={style["poster-content"]}>
                               <span className={style.image}>
                                 <Image
-                                  src={selectMovie.poster}
-                                  alt={selectMovie.movieName}
+                                  src={
+                                    selectMovie.poster || "/images/fallback.png"
+                                  }
+                                  alt={selectMovie.movieName || "No image"}
                                   fill
+                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw"
                                   style={{ objectFit: "cover" }}
+                                  priority
                                 />
                               </span>
                             </dd>

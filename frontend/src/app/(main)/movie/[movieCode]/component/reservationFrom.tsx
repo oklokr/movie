@@ -17,9 +17,9 @@ import dayjs from "dayjs";
 import Button from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { requestGetVerification } from "@/api/common";
 import { requestUpdateUserAdult } from "@/api/user";
 import PortOne from "@portone/browser-sdk/v2";
+import { requestGetVerification } from "@/app/api/portone/getVerification/portone";
 
 interface PostForm {
   date: Date | null;
@@ -218,9 +218,10 @@ export default function ReservationForm() {
         <div className={style["movie-info"]}>
           <div className={style.image}>
             <Image
-              src={movieDetail?.background || ""}
-              alt={movieDetail?.movieName || ""}
+              src={movieDetail?.background || "/images/fallback.png"}
+              alt={movieDetail?.movieName || "No image"}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw"
               style={{ objectFit: "cover" }}
               priority
             />

@@ -19,7 +19,7 @@ export default function RandomList({ list }) {
             <li key={item.movieCode}>
               <span className={style.image}>
                 <Image
-                  src={item.poster || "/images/fallback.png"} // poster 없으면 기본 이미지
+                  src={item.poster || "/images/fallback.png"}
                   alt={item.movieName || "No image"}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw"

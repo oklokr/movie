@@ -22,4 +22,19 @@ public class UserController {
     public ResponseEntity<?> updateUserAdult(@RequestBody Map<String, Object> req) {
         return ResponseEntity.ok(userService.updateUserAdult(req));
     }
+
+    @PostMapping("/updateUserInfo")
+    public ResponseEntity<?> updateUserInfo(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(userService.updateUserInfo(req));
+    }
+
+    @PostMapping("/getOrderHistory")
+    public ResponseEntity<?> getOrderHistory(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(userService.getOrderHistory(req));
+    }
+
+    @PostMapping("/getVodList")
+    public ResponseEntity<?> getVodList(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(userService.getVodList(req));
+    }
 }

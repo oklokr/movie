@@ -28,9 +28,10 @@ export default function Banner({ list }) {
             <SwiperSlide key={item.movieCode}>
               <span className={style.image}>
                 <Image
-                  alt={item.movieName}
-                  src={item.background}
+                  alt={item.movieName || "/images/fallback.png"}
+                  src={item.background || "No image"}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw"
                   style={{ objectFit: "cover" }}
                   priority
                 />
