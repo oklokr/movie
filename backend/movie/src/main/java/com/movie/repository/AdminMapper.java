@@ -52,4 +52,10 @@ public interface AdminMapper {
 
     String getTheaterCode();
     Boolean insertTheater(@Param("theaterCode") String theaterCode, @Param("theaterName") String theaterName);
+    Boolean insertSeat(
+        @Param("seatCode") String seatCode,
+        @Param("theaterCode") String theaterCode,
+        @Param("seatRow") String seatRow,
+        @Param("seatNum") int seatNum
+    );
 }   

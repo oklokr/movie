@@ -2,5 +2,6 @@
 @use "./common.scss";
 
 .app {
+  min-width: 1200px;
   background: linear-gradient(180deg, #000000b5 60%, #000000 100%);
 }

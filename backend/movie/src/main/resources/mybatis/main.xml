@@ -5,62 +5,90 @@
 
 <mapper namespace="com.movie.repository.MainMapper">
     <select id="getPopularityMovieList">
-        SELECT m.*
+        SELECT 
+            m.*,
+            CASE 
+                WHEN EXISTS (
+                    SELECT 1
+                    FROM RUN_SCHEDULE rs
+                    WHERE rs.MOVIE_CODE = m.MOVIE_CODE
+                      AND rs.RUN_DATE >= CURDATE()
+                ) THEN 'Y'
+                ELSE 'N'
+            END AS reservable
         FROM ORDER_HISTORY o
         LEFT JOIN MOVIE m ON o.MOVIE_CODE = m.MOVIE_CODE
         WHERE m.VOD_STATE = 'Y'
-        GROUP BY MOVIE_CODE
+        GROUP BY m.MOVIE_CODE
         ORDER BY COUNT(*) DESC
-        LIMIT 5;
+        LIMIT 5
     </select>
+    
     <select id="getAvailableMovieList">
-        SELECT * FROM MOVIE
-        WHERE RESERVATION_STATE = 'Y'
-        ORDER BY MOVIE_RELEASE
+        SELECT 
+            m.*,
+            'Y' AS reservable
+        FROM MOVIE m
+        WHERE EXISTS (
+            SELECT 1 
+            FROM RUN_SCHEDULE rs
+            WHERE rs.MOVIE_CODE = m.MOVIE_CODE
+            AND rs.RUN_DATE >= CURDATE()
+        )
+        ORDER BY m.MOVIE_RELEASE DESC
         LIMIT 30;
     </select>
 
     <select id="getRandomMovieList">
-        SELECT * FROM MOVIE
-        WHERE VOD_STATE = 'Y' OR RESERVATION_STATE = 'Y'
+        SELECT 
+            m.*,
+            CASE 
+                WHEN EXISTS (
+                    SELECT 1 
+                    FROM RUN_SCHEDULE rs 
+                    WHERE rs.MOVIE_CODE = m.MOVIE_CODE 
+                      AND rs.RUN_DATE >= CURDATE()
+                ) THEN 'Y'
+                ELSE 'N'
+            END AS reservable
+        FROM MOVIE m
+        WHERE m.VOD_STATE = 'Y' OR m.RESERVATION_STATE = 'Y'
         ORDER BY RAND()
         LIMIT 30;
     </select>
 
     <select id="getMovieList">
-        SELECT * FROM MOVIE
+        SELECT 
+            m.*,
+            CASE 
+                WHEN EXISTS (
+                    SELECT 1 
+                    FROM RUN_SCHEDULE rs 
+                    WHERE rs.MOVIE_CODE = m.MOVIE_CODE 
+                      AND rs.RUN_DATE >= CURDATE()
+                ) THEN 'Y'
+                ELSE 'N'
+            END AS reservable
+        FROM MOVIE m
         <where>
-            VOD_STATE = 'Y' OR RESERVATION_STATE = 'Y'
-            <!-- 장르 필터 -->
             <if test="genreTpcd != null and genreTpcd != ''">
-                AND ( 
-                    GENRE_CODEA = #{genreTpcd}
-                    OR GENRE_CODEB = #{genreTpcd}
-                    OR GENRE_CODEC = #{genreTpcd} 
-                )
+                (GENRE_CODEA = #{genreTpcd} OR GENRE_CODEB = #{genreTpcd} OR GENRE_CODEC = #{genreTpcd})
             </if>
-            <!-- 제목 검색 -->
             <if test="keyword != null and keyword != ''">
                 AND MOVIE_NAME LIKE CONCAT('%', #{keyword}, '%')
             </if>
         </where>
-
-        ORDER BY MOVIE_RELEASE DESC
+        ORDER BY m.MOVIE_RELEASE DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
+
     <select id="countMovieList">
-        SELECT COUNT(*) FROM MOVIE
+        SELECT COUNT(*) 
+        FROM MOVIE m
         <where>
-            VOD_STATE = 'Y' OR RESERVATION_STATE = 'Y'
-            <!-- 장르 필터 -->
             <if test="genreTpcd != null and genreTpcd != ''">
-                AND ( 
-                    GENRE_CODEA = #{genreTpcd}
-                    OR GENRE_CODEB = #{genreTpcd}
-                    OR GENRE_CODEC = #{genreTpcd} 
-                )
+                (GENRE_CODEA = #{genreTpcd} OR GENRE_CODEB = #{genreTpcd} OR GENRE_CODEC = #{genreTpcd})
             </if>
-            <!-- 제목 검색 -->
             <if test="keyword != null and keyword != ''">
                 AND MOVIE_NAME LIKE CONCAT('%', #{keyword}, '%')
             </if>
@@ -79,7 +107,16 @@
             a2.CREATOR_NAME AS actorB,
             a3.CREATOR_NAME AS actorC,
             a4.CREATOR_NAME AS actorD,
-            a5.CREATOR_NAME AS actorE
+            a5.CREATOR_NAME AS actorE,
+            CASE 
+                WHEN EXISTS (
+                    SELECT 1 
+                    FROM RUN_SCHEDULE rs 
+                    WHERE rs.MOVIE_CODE = m.MOVIE_CODE 
+                      AND rs.RUN_DATE >= CURDATE()
+                ) THEN 'Y'
+                ELSE 'N'
+            END AS reservable
         FROM MOVIE m
         LEFT JOIN COMMON_CODE code1 ON m.GENRE_CODEA = code1.COMMON_VALUE AND code1.COMMON_CODE = 'GENRE_TPCD'
         LEFT JOIN COMMON_CODE code2 ON m.GENRE_CODEB = code2.COMMON_VALUE AND code2.COMMON_CODE = 'GENRE_TPCD'
@@ -97,5 +134,52 @@
     <insert id="insertOrderHistory">
         INSERT INTO ORDER_HISTORY (ORDER_CODE, USER_ID, MOVIE_CODE, PRICE, ORDER_TYPE)
         VALUES (#{orderCode}, #{userId}, #{movieCode}, #{price}, #{orderTpye})
+    </insert>
+
+    <select id="getScheduleList" resultType="map">
+        SELECT 
+            rs.SCHEDULE_CODE as scheduleCode,
+            rs.THEATER_CODE as theaterCode,
+            t.THEATER_NAME as theaterName,
+            rs.START_TIME as startTime,
+            rs.END_TIME as endTime
+        FROM RUN_SCHEDULE rs
+        JOIN THEATER t ON rs.THEATER_CODE = t.THEATER_CODE
+        WHERE rs.RUN_DATE = #{runDate} AND rs.MOVIE_CODE = #{movieCode}
+        ORDER BY rs.THEATER_CODE, rs.START_TIME
+    </select>
+
+    <select id="getAvailableSeats" resultType="map">
+        SELECT 
+            s.SEAT_CODE,
+            s.SEAT_ROW,
+            s.SEAT_NUM,
+            CASE 
+                WHEN rs.RESERVE_SEAT_CODE IS NULL THEN 'Y'
+                ELSE 'N'
+            END AS available
+        FROM SEAT s
+        LEFT JOIN (
+            SELECT rs.RESERVE_SEAT_CODE, rs.SEAT_ROW, rs.SEAT_NUM
+            FROM RESERVATION_SEAT rs
+            INNER JOIN RESERVATION r
+                ON rs.RESERVE_CODE = r.RESERVE_CODE
+            WHERE r.SCHEDULE_CODE = #{scheduleCode}
+            AND r.MOVIE_CODE = #{movieCode}
+            AND r.THEATER_CODE = #{theaterCode}
+        ) rs
+        ON s.SEAT_ROW = rs.SEAT_ROW
+        AND s.SEAT_NUM = rs.SEAT_NUM
+        WHERE s.THEATER_CODE = #{theaterCode}
+        ORDER BY s.SEAT_ROW, s.SEAT_NUM;
+    </select>
+
+    <insert id="insertReservation">
+        INSERT INTO RESERVATION (RESERVE_CODE, RESERVE_DATE, USER_ID, THEATER_CODE, MOVIE_CODE, PRICE, SCHEDULE_CODE)
+        VALUES (#{reserveCode}, #{reserveDate}, #{userId}, #{theaterCode}, #{movieCode}, #{price}, #{scheduleCode})
+    </insert>
+    <insert id="insertReservationSeat">
+        INSERT INTO RESERVATION_SEAT (RESERVE_SEAT_CODE, RESERVE_CODE, SEAT_ROW, SEAT_NUM)
+        VALUES (#{reserveSeatCode}, #{reserveCode}, #{seatRow}, #{seatNum})
     </insert>
 </mapper>

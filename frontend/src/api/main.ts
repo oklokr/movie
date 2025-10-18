@@ -28,7 +28,7 @@ export function requestGetRandomMovieList(): Promise<requestType> {
 export function requestGetMovieList(data: {
   genreTpcd: string;
   keyword: string;
-  page: string;
+  page: number;
 }): Promise<requestType> {
   return request({
     url: "/api/main/getMovieList",
@@ -54,6 +54,44 @@ export function requestInsertOrderHistory(data: {
 }): Promise<requestType> {
   return request({
     url: "/api/main/insertOrderHistory",
+    method: "post",
+    data,
+  });
+}
+
+export function requestGetScheduleList(data: {
+  runDate: string;
+  movieCode: string;
+}): Promise<requestType> {
+  return request({
+    url: "/api/main/getScheduleList",
+    method: "post",
+    data,
+  });
+}
+export function requestGetAvailableSeats(data: {
+  movieCode: string;
+  scheduleCode: string;
+  theaterCode: string;
+}): Promise<requestType> {
+  return request({
+    url: "/api/main/getAvailableSeats",
+    method: "post",
+    data,
+  });
+}
+export function requestInsertReservation(data: {
+  orderCode: string;
+  userId: string;
+  movieCode: string;
+  price: number;
+  reserveDate: string;
+  theaterCode: string;
+  scheduleCode: string;
+  seatCode: string[];
+}): Promise<requestType> {
+  return request({
+    url: "/api/main/insertReservation",
     method: "post",
     data,
   });

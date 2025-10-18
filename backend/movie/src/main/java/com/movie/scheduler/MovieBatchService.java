@@ -46,7 +46,7 @@ public class MovieBatchService {
         syncGenresWithCommonCode(genreCommonId);
 
         // 1. TMDB 최신 영화 ID 목록 -------------------------------------------------------
-        List<TMDBDiscoverIdListDto> tmdbIds = tmdbClient.getMovieIdList(1);
+        List<TMDBDiscoverIdListDto> tmdbIds = tmdbClient.getMovieIdList(5);
         for (TMDBDiscoverIdListDto idDto : tmdbIds) {
             processSingleMovie(idDto.getId());
         }

@@ -4,8 +4,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.movie.service.MainService;
 
-import okhttp3.Response;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Map;
@@ -50,5 +48,20 @@ public class MainController {
     @PostMapping("/insertOrderHistory")
     public ResponseEntity<?> insertOrderHistory(@RequestBody Map<String, Object> req) {
         return ResponseEntity.ok(mainService.insertOrderHistory(req));
+    }
+
+    @PostMapping("/getScheduleList")
+    public ResponseEntity<?> getScheduleList(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(mainService.getScheduleList(req));
+    }
+
+    @PostMapping("/getAvailableSeats")
+    public ResponseEntity<?> getAvailableSeats(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(mainService.getAvailableSeats(req));
+    }
+
+    @PostMapping("/insertReservation")
+    public ResponseEntity<?> insertReservation(@RequestBody Map<String, Object> req) {
+        return ResponseEntity.ok(mainService.insertReservation(req));
     }
 }

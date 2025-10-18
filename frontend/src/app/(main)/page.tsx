@@ -15,9 +15,13 @@ export default async function MainPage() {
   let bannerList = null;
   try {
     availableList = await requestGetAvailableMovieList();
+    console.log(availableList);
     popularityList = await requestGetPopularityMovieList();
+    console.log(popularityList);
     randomList = await requestGetRandomMovieList();
+    console.log(randomList);
     bannerList = randomList?.data?.slice(0, 5) || [];
+    console.log(bannerList);
   } catch (err) {
     console.log(err);
   }

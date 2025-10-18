@@ -6,7 +6,7 @@ import style from "./style.module.scss";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { CommonCodeItem } from "@/redux/slices/common";
 import { requestLogout } from "@/api/common";
@@ -14,6 +14,8 @@ import { fn_alert } from "@/components/ui/modal/alert";
 import { resetUserInfo } from "@/redux/slices/user";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import Input from "@/components/ui/input";
+import { IoCloseOutline } from "react-icons/io5";
 
 interface infoType {
   userTpcd: string;
@@ -38,6 +40,10 @@ export default function Header({ layoutState = "default" }: LayoutState) {
 
   const menuRef = useRef<HTMLDivElement>(null);
   const menuBtn = useRef<HTMLButtonElement>(null);
+
+  const [searchVisible, setSearchVisible] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [targetGenre, setTargetGenre] = useState("");
 
   useEffect(() => {
     console.log(code);
@@ -102,7 +108,18 @@ export default function Header({ layoutState = "default" }: LayoutState) {
           {genre?.map((array, idx) => (
             <SwiperSlide key={idx} className={style["swiper-slide"]}>
               {array.map((item) => (
-                <button type="button" key={item.commonValue}>
+                <button
+                  type="button"
+                  key={item.commonValue}
+                  className={
+                    item.commonValue === targetGenre ? style.active : ""
+                  }
+                  onClick={() => {
+                    setSearchKeyword("");
+                    setTargetGenre(item.commonValue);
+                    router.push(`/search?genreTpcd=${item.commonValue}`);
+                  }}
+                >
                   {item.commonName}
                 </button>
               ))}
@@ -144,9 +161,42 @@ export default function Header({ layoutState = "default" }: LayoutState) {
         {layoutState === "default" && (
           <li>
             <button type="button" aria-label="검색">
-              <IoIosSearch size={28} />
+              <IoIosSearch size={28} onClick={() => setSearchVisible(true)} />
             </button>
-            <div></div>
+            <div
+              className={`${style["search-wrap"]} ${
+                searchVisible ? style.active : ""
+              }`}
+            >
+              <Input
+                width="100%"
+                placeholder="아이디를 입력하세요"
+                value={searchKeyword}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setTargetGenre("");
+                    router.push(`/search?keyword=${searchKeyword}`);
+                  }
+                }}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              >
+                <button className={style["icon-search"]}>
+                  <IoIosSearch
+                    size={28}
+                    onClick={() => {
+                      setTargetGenre("");
+                      router.push(`/search?keyword=${searchKeyword}`);
+                    }}
+                  />
+                </button>
+                <button
+                  className={style["icon-close"]}
+                  onClick={() => setSearchVisible(false)}
+                >
+                  <IoCloseOutline size={24} />
+                </button>
+              </Input>
+            </div>
           </li>
         )}
         <li>

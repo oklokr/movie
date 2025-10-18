@@ -113,6 +113,10 @@
         INSERT INTO THEATER (THEATER_CODE, THEATER_NAME)
         VALUES (#{theaterCode}, #{theaterName})
     </insert>
+    <insert id="insertSeat">
+        INSERT INTO SEAT (SEAT_CODE, THEATER_CODE, SEAT_ROW, SEAT_NUM)
+        VALUES (#{seatCode}, #{theaterCode}, #{seatRow}, #{seatNum})
+    </insert>
 
     <select id="getTheater">
         SELECT * FROM THEATER;

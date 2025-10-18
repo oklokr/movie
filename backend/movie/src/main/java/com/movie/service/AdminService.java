@@ -112,9 +112,20 @@ public class AdminService {
 
     public ApiResponse<List<TheaterDto>> insertTheater(Map<String, Object> req) {
         String code = adminMapper.getTheaterCode();
+        String theaterCode = "T" + code;
         String name = Integer.parseInt(code) + "관";
-        boolean result = adminMapper.insertTheater("T" + code, name);
+        boolean result = adminMapper.insertTheater(theaterCode, name);
         if(!result) ApiResponse.error(null, "상영관 추가가 실패했습니다.");
+
+        char[] rows = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+        int cols = 15;
+
+        for (char row: rows) {
+            for(int num = 1; num <= cols; num++) {
+                String seatCode = theaterCode + "_"  + row + num;
+                adminMapper.insertSeat(seatCode, theaterCode, String.valueOf(row), num);
+            }
+        }
 
         List<TheaterDto> theaterList = adminMapper.getTheater();
         if(theaterList == null || theaterList.isEmpty()) return ApiResponse.error(null, "상영관 정보불러오기 실패입니다.");

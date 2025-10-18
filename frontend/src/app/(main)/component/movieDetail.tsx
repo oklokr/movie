@@ -150,8 +150,12 @@ export default function MovieDetail({ targetMovie, onClose }) {
             {movieDetail?.vodState === "Y" && (
               <Button onClick={handleDvdPurchase}>DVD구매하기</Button>
             )}
-            {movieDetail?.reservationState === "Y" && (
-              <Button onClick={() => {}}>예매하기</Button>
+            {movieDetail?.reservable === "Y" && (
+              <Button
+                onClick={() => router.push(`/movie/${movieDetail.movieCode}`)}
+              >
+                예매하기
+              </Button>
             )}
           </div>
         </>

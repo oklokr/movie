@@ -1,0 +1,153 @@
+.reservation-wrap {
+  max-width: 1200px;
+  padding-top: 24px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 32px;
+  }
+
+  .movie-wrap {
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+    margin-top: 32px;
+  }
+  .movie-info {
+    width: 400px;
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      aspect-ratio: 200 / 112;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+  }
+  .form-wrap {
+    .info {
+      display: flex;
+      gap: 8px;
+
+      dd span {
+        & + span {
+          margin-left: 8px;
+        }
+      }
+    }
+    .selecter {
+      display: flex;
+      margin-top: 24px;
+    }
+
+    .btn-wrap {
+      text-align: right;
+      margin-top: 40px;
+    }
+  }
+}
+
+.time-selecter {
+  margin-top: 24px;
+  ul {
+    display: flex;
+    gap: 8px;
+  }
+  label {
+    display: flex;
+    position: relative;
+  }
+  input {
+    opacity: 0;
+    outline: none;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+
+    &:checked + span {
+      color: #222;
+      background: #facc15;
+      border-color: #facc15;
+    }
+  }
+
+  span {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+  }
+}
+
+.seat-wrap {
+  margin-top: 24px;
+}
+
+.seat-column {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  & + .seat-column {
+    margin-top: 4px;
+  }
+  p {
+    width: 20px;
+  }
+  label {
+    display: flex;
+    position: relative;
+    input {
+      opacity: 0;
+      outline: none;
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+
+      &:checked + span {
+        color: #222;
+        background: #facc15;
+        border-color: #facc15;
+      }
+      &:disabled + span {
+        background: #5a5a68;
+      }
+    }
+    span {
+      display: flex;
+      text-indent: -9999px;
+      color: transparent;
+      width: 40px;
+      height: 40px;
+      background: #ccc;
+    }
+  }
+}
+
+.seat-number {
+  display: flex;
+  gap: 4px;
+  padding-left: 24px;
+  margin-top: 8px;
+
+  span {
+    display: flex;
+    justify-content: center;
+    width: 40px;
+  }
+}

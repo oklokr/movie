@@ -48,5 +48,6 @@ public class MovieDto {
     private int discountrate;
     private String vodState;
     private String reservationState;
+    private String reservable;
     private Date CREATE_DATE;
 }

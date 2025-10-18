@@ -31,7 +31,8 @@
         border-radius: 6px;
         transition: all 0.2s;
 
-        &:hover {
+        &:hover,
+        &.active {
           background: rgba(255, 204, 0, 0.8);
           color: #000;
         }
@@ -130,4 +131,32 @@
       color: transparent;
     }
   }
+}
+
+.search-wrap {
+  position: absolute;
+  left: 100%;
+  right: 100px;
+  z-index: 1;
+  overflow: hidden;
+  transition: 0.3s;
+
+  &.active {
+    left: 188px;
+  }
+}
+
+.icon-search,
+.icon-close {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.icon-search {
+  right: 50px;
+}
+.icon-close {
+  right: 12px;
 }

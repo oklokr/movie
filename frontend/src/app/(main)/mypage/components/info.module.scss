@@ -1,0 +1,42 @@
+.info-wrap {
+  li {
+    display: flex;
+    width: 100%;
+    & + li {
+      margin-top: 16px;
+    }
+    > * {
+      flex: 1;
+    }
+
+    .input-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      width: 50%;
+    }
+    .label {
+      font-size: 14px;
+      line-height: 1;
+      color: #ccc;
+      width: 98px;
+      text-align: right;
+      padding: 16px 0;
+    }
+    .content {
+      display: flex;
+      align-items: center;
+      width: calc(100% - 122px);
+      font-size: 14px;
+      color: #777;
+      padding: 12px;
+      border: 1px solid #444;
+      border-radius: 8px;
+      background: #3a3a3a;
+    }
+  }
+}
+.btn-wrap {
+  text-align: right;
+  margin-top: 40px;
+}
